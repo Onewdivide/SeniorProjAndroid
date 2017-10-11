@@ -13,13 +13,20 @@ import android.speech.tts.TextToSpeech;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.security.cert.CertificateException;
 import java.util.Locale;
 
@@ -31,12 +38,15 @@ import okhttp3.Response;
 import okhttp3.Route;
 import okhttp3.logging.HttpLoggingInterceptor;
 
+import static java.lang.Thread.sleep;
+
 public class NavigationActivity extends AppCompatActivity implements TextToSpeech.OnInitListener {
 
     private GestureDetector gestureDetector;
     private TextToSpeech tts;
     private LinearLayout test123;
     private String URL = "https://10.34.250.12/api/config/v1/maps/imagesource/domain_0_1500368087062.jpg";
+    private String LocationHistoryURL = "https://10.34.250.12/api/location/v1/history/clients/78%3A4f%3A43%3A8a%3Adb%3Aab?date=2017%2F09%2F19";
     private ImageView imgView;
     private int CoX,CoY,wantX,wantY;
 
@@ -79,6 +89,9 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
         imgView2.setImageBitmap(bitMap);
         TextView text1 = (TextView) findViewById(R.id.textView6);
         text1.setText(" MAC 60:83:34:6D:11:8D ");
+
+        locationpoint location = new locationpoint();
+        location.execute();
         //changed set image resource to set image background resource
 //        imViewAndroid.setBackgroundResource(R.drawable.map);
 
@@ -93,13 +106,15 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
 //        CoY/268 = 70/243 so CoY = (268*70)/243 = 77.2
 //        and!! plus (4,124) in to CoX and CoY
 //        So real CoX = 102+4 = 106, CoY = 77+124 = 201
-        wantX = 188;
-        wantY = 125;
-        CoX = ((372*wantX)/345)+4;
-        CoY = ((268*wantY)/243)+124;
-        canvas.drawCircle(CoX, CoY, 2, paint);
+
+
+//        wantX = 188;
+//        wantY = 125;
+//        CoX = ((372*wantX)/345)+4;
+//        CoY = ((268*wantY)/243)+124;
+//        canvas.drawCircle(CoX, CoY, 2, paint);
         //invalidate to update bitmap in imageview
-        imgView2.invalidate();
+//        imgView2.invalidate();
 
 
         tts = new TextToSpeech(this, this);
@@ -126,6 +141,80 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
     @Override
     public void onInit(int status) {
 
+    }
+
+    class locationpoint extends AsyncTask<Void,Void,Void>{
+
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+            logging.setLevel(HttpLoggingInterceptor.Level.HEADERS);
+
+            OkHttpClient client = SelfSigningClientBuilder.createClient()
+                    .authenticator(new Authenticator() {
+                        @Nullable
+                        @Override
+                        public Request authenticate(Route route, Response response) throws IOException {
+                            String credential = Credentials.basic("dev", "dev12345");
+                            return response.request().newBuilder().header("Authorization", credential).build();
+                        }
+                    }).addInterceptor(logging).build();
+
+            Request request = new Request.Builder().url(LocationHistoryURL)
+                    .build();
+
+            try {
+                Response response = client.newCall(request).execute();
+                InputStream inputStream = response.body().byteStream();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream,"iso-8859-1"),8);
+                StringBuilder stringBuilder = new StringBuilder();
+                String line = null;
+
+                while ((line = reader.readLine())!=null){
+                    stringBuilder.append(line+"\n");
+                }
+                inputStream.close();
+
+                Log.d("JSON Result", stringBuilder.toString());
+
+                Bitmap bitMap = Bitmap.createBitmap(380 , 516, Bitmap.Config.ARGB_8888);  //creates bmp
+                bitMap = bitMap.copy(bitMap.getConfig(), true);     //lets bmp to be mutable
+                Canvas canvas = new Canvas(bitMap);                 //draw a canvas in defined bmp
+
+                Paint paint = new Paint();                          //define paint and paint color
+                paint.setColor(Color.RED);
+                paint.setStyle(Paint.Style.FILL_AND_STROKE);
+                //paint.setStrokeWidth(0.5f);
+                paint.setAntiAlias(true);
+
+                JSONObject jsonObject = new JSONObject(stringBuilder.toString());
+                for(int i=0; i< jsonObject.length();i++){
+                    JSONObject mapinfo = jsonObject.getJSONObject("mapinfo");
+                    JSONObject mapCoordiate = mapinfo.getJSONObject("mapCoordinate");
+
+                    wantX = mapCoordiate.getInt("X");
+                    wantY = mapCoordiate.getInt("Y");
+                    CoX = ((372*wantX)/345)+4;
+                    CoY = ((268*wantY)/243)+124;
+                    canvas.drawCircle(CoX, CoY, 2, paint);
+
+                    sleep(100);
+
+                }
+
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
     }
 
     class NetworkTask extends AsyncTask<String, Void, Bitmap> {
