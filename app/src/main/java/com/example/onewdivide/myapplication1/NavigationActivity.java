@@ -19,6 +19,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,7 +30,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Type;
 import java.security.cert.CertificateException;
+import java.util.Collection;
 import java.util.Locale;
 
 import okhttp3.Authenticator;
@@ -38,6 +43,7 @@ import okhttp3.Response;
 import okhttp3.Route;
 import okhttp3.logging.HttpLoggingInterceptor;
 
+import static java.lang.Integer.parseInt;
 import static java.lang.Thread.sleep;
 
 public class NavigationActivity extends AppCompatActivity implements TextToSpeech.OnInitListener {
@@ -48,6 +54,7 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
     private String URL = "https://10.34.250.12/api/config/v1/maps/imagesource/domain_0_1500368087062.jpg";
     private String LocationHistoryURL = "https://10.34.250.12/api/location/v1/history/clients/78%3A4f%3A43%3A8a%3Adb%3Aab?date=2017%2F09%2F19";
     private ImageView imgView;
+    private ImageView imgView2;
     private int CoX,CoY,wantX,wantY;
 
     @Override
@@ -73,25 +80,26 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
         network.execute("");
 
 
-        Bitmap bitMap = Bitmap.createBitmap(380 , 516, Bitmap.Config.ARGB_8888);  //creates bmp
-        bitMap = bitMap.copy(bitMap.getConfig(), true);     //lets bmp to be mutable
-        Canvas canvas = new Canvas(bitMap);                 //draw a canvas in defined bmp
+//        Bitmap bitMap = Bitmap.createBitmap(380 , 516, Bitmap.Config.ARGB_8888);  //creates bmp
+//        bitMap = bitMap.copy(bitMap.getConfig(), true);     //lets bmp to be mutable
+//        Canvas canvas = new Canvas(bitMap);                 //draw a canvas in defined bmp
+//
+//        Paint paint = new Paint();                          //define paint and paint color
+//        paint.setColor(Color.RED);
+//        paint.setStyle(Paint.Style.FILL_AND_STROKE);
+//        //paint.setStrokeWidth(0.5f);
+//        paint.setAntiAlias(true);                           //smooth edges
 
-        Paint paint = new Paint();                          //define paint and paint color
-        paint.setColor(Color.RED);
-        paint.setStyle(Paint.Style.FILL_AND_STROKE);
-        //paint.setStrokeWidth(0.5f);
-        paint.setAntiAlias(true);                           //smooth edges
+        new FeedJSONTask().execute();
 
-
-        ImageView imgView2 = (ImageView) findViewById(R.id.imageView2);
-        imgView2.bringToFront();
-        imgView2.setImageBitmap(bitMap);
+//        imgView2 = (ImageView) findViewById(R.id.imageView2);
+//        imgView2.bringToFront();
+//        imgView2.setImageBitmap(bitMap);
         TextView text1 = (TextView) findViewById(R.id.textView6);
         text1.setText(" MAC 60:83:34:6D:11:8D ");
 
-        locationpoint location = new locationpoint();
-        location.execute();
+
+        Log.d("Test Debug >>","test1111");
         //changed set image resource to set image background resource
 //        imViewAndroid.setBackgroundResource(R.drawable.map);
 
@@ -108,12 +116,12 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
 //        So real CoX = 102+4 = 106, CoY = 77+124 = 201
 
 
-//        wantX = 188;
-//        wantY = 125;
+        wantX = 188;
+        wantY = 125;
 //        CoX = ((372*wantX)/345)+4;
 //        CoY = ((268*wantY)/243)+124;
 //        canvas.drawCircle(CoX, CoY, 2, paint);
-        //invalidate to update bitmap in imageview
+//        //invalidate to update bitmap in imageview
 //        imgView2.invalidate();
 
 
@@ -143,11 +151,57 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
 
     }
 
-    class locationpoint extends AsyncTask<Void,Void,Void>{
-
+    public class FeedJSONTask extends  AsyncTask<String, Void, String>{
 
         @Override
-        protected Void doInBackground(Void... voids) {
+        protected String doInBackground(String... strings) {
+            String result = FeedJSON();
+            Gson gson = new Gson();
+            Type collectionType = new TypeToken<Collection<CMXResponse>>() {}.getType();
+            Collection<CMXResponse> enums = gson.fromJson(result, collectionType);
+            CMXResponse[] CMXresult = enums.toArray(new CMXResponse[enums.size()]);
+
+            Bitmap bitMap = Bitmap.createBitmap(380 , 516, Bitmap.Config.ARGB_8888);  //creates bmp
+            bitMap = bitMap.copy(bitMap.getConfig(), true);     //lets bmp to be mutable
+            Canvas canvas = new Canvas(bitMap);                 //draw a canvas in defined bmp
+
+            Paint paint = new Paint();                          //define paint and paint color
+            paint.setColor(Color.RED);
+            paint.setStyle(Paint.Style.FILL_AND_STROKE);
+            //paint.setStrokeWidth(0.5f);
+            paint.setAntiAlias(true);                           //smooth edges
+
+            imgView2 = (ImageView) findViewById(R.id.imageView2);
+            imgView2.bringToFront();
+            imgView2.setImageBitmap(bitMap);
+
+            for(int i=0; i<= CMXresult.length;i++){
+
+                double locateX = CMXresult[0].getMapCoordinate().getX();
+                double locateY = CMXresult[0].getMapCoordinate().getY();
+                double CoXX = ((372*locateX)/345)+4;
+                double CoYY= ((268*locateY)/243)+124;
+                int CoX = (int)CoXX;
+                int CoY = (int)CoYY;
+                canvas.drawCircle(CoX, CoY, 2, paint);
+                //invalidate to update bitmap in imageview
+                imgView2.invalidate();
+
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+        }
+    }
+
+    private String FeedJSON(){
+
+        try {
+
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
             logging.setLevel(HttpLoggingInterceptor.Level.HEADERS);
 
@@ -166,56 +220,19 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
 
             try {
                 Response response = client.newCall(request).execute();
-                InputStream inputStream = response.body().byteStream();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream,"iso-8859-1"),8);
-                StringBuilder stringBuilder = new StringBuilder();
-                String line = null;
-
-                while ((line = reader.readLine())!=null){
-                    stringBuilder.append(line+"\n");
-                }
-                inputStream.close();
-
-                Log.d("JSON Result", stringBuilder.toString());
-
-                Bitmap bitMap = Bitmap.createBitmap(380 , 516, Bitmap.Config.ARGB_8888);  //creates bmp
-                bitMap = bitMap.copy(bitMap.getConfig(), true);     //lets bmp to be mutable
-                Canvas canvas = new Canvas(bitMap);                 //draw a canvas in defined bmp
-
-                Paint paint = new Paint();                          //define paint and paint color
-                paint.setColor(Color.RED);
-                paint.setStyle(Paint.Style.FILL_AND_STROKE);
-                //paint.setStrokeWidth(0.5f);
-                paint.setAntiAlias(true);
-
-                JSONObject jsonObject = new JSONObject(stringBuilder.toString());
-                for(int i=0; i< jsonObject.length();i++){
-                    JSONObject mapinfo = jsonObject.getJSONObject("mapinfo");
-                    JSONObject mapCoordiate = mapinfo.getJSONObject("mapCoordinate");
-
-                    wantX = mapCoordiate.getInt("X");
-                    wantY = mapCoordiate.getInt("Y");
-                    CoX = ((372*wantX)/345)+4;
-                    CoY = ((268*wantY)/243)+124;
-                    canvas.drawCircle(CoX, CoY, 2, paint);
-
-                    sleep(100);
-
-                }
-
-
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
+                String result = response.body().string();
+                return result;
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
-            return null;
+        }catch (Exception e){
+
         }
+        return null;
     }
+
+
 
     class NetworkTask extends AsyncTask<String, Void, Bitmap> {
 
