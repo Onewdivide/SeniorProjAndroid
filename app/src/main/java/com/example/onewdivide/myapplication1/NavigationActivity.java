@@ -7,7 +7,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.speech.tts.TextToSpeech;
 import android.support.annotation.Nullable;
@@ -22,16 +21,9 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.lang.reflect.Type;
-import java.security.cert.CertificateException;
 import java.util.Collection;
 import java.util.Locale;
 
@@ -80,9 +72,9 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
         network.execute("");
 
 
-//        Bitmap bitMap = Bitmap.createBitmap(380 , 516, Bitmap.Config.ARGB_8888);  //creates bmp
-//        bitMap = bitMap.copy(bitMap.getConfig(), true);     //lets bmp to be mutable
-//        Canvas canvas = new Canvas(bitMap);                 //draw a canvas in defined bmp
+        Bitmap bitMap = Bitmap.createBitmap(380 , 516, Bitmap.Config.ARGB_8888);  //creates bmp
+        bitMap = bitMap.copy(bitMap.getConfig(), true);     //lets bmp to be mutable
+        Canvas canvas = new Canvas(bitMap);                 //draw a canvas in defined bmp
 //
 //        Paint paint = new Paint();                          //define paint and paint color
 //        paint.setColor(Color.RED);
@@ -92,9 +84,9 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
 
         new FeedJSONTask().execute();
 
-//        imgView2 = (ImageView) findViewById(R.id.imageView2);
-//        imgView2.bringToFront();
-//        imgView2.setImageBitmap(bitMap);
+        imgView2 = (ImageView) findViewById(R.id.imageView2);
+        imgView2.bringToFront();
+        imgView2.setImageBitmap(bitMap);
         TextView text1 = (TextView) findViewById(R.id.textView6);
         text1.setText(" MAC 60:83:34:6D:11:8D ");
 
@@ -122,7 +114,7 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
 //        CoY = ((268*wantY)/243)+124;
 //        canvas.drawCircle(CoX, CoY, 2, paint);
 //        //invalidate to update bitmap in imageview
-//        imgView2.invalidate();
+        imgView2.invalidate();
 
 
         tts = new TextToSpeech(this, this);
@@ -151,15 +143,53 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
 
     }
 
-    public class FeedJSONTask extends  AsyncTask<String, Void, String>{
+    public class FeedJSONTask extends AsyncTask<String[], Void, String[]> {
 
         @Override
-        protected String doInBackground(String... strings) {
+        protected String[] doInBackground(String[]... strings) {
             String result = FeedJSON();
             Gson gson = new Gson();
             Type collectionType = new TypeToken<Collection<CMXResponse>>() {}.getType();
             Collection<CMXResponse> enums = gson.fromJson(result, collectionType);
             CMXResponse[] CMXresult = enums.toArray(new CMXResponse[enums.size()]);
+
+//            Bitmap bitMap = Bitmap.createBitmap(380 , 516, Bitmap.Config.ARGB_8888);  //creates bmp
+//            bitMap = bitMap.copy(bitMap.getConfig(), true);     //lets bmp to be mutable
+//            Canvas canvas = new Canvas(bitMap);                 //draw a canvas in defined bmp
+
+//            Paint paint = new Paint();                          //define paint and paint color
+//            paint.setColor(Color.RED);
+//            paint.setStyle(Paint.Style.FILL_AND_STROKE);
+//            //paint.setStrokeWidth(0.5f);
+//            paint.setAntiAlias(true);                           //smooth edges
+
+//            imgView2 = (ImageView) findViewById(R.id.imageView2);
+//            imgView2.bringToFront();
+//            imgView2.setImageBitmap(bitMap);
+
+                double locateX = CMXresult[0].getMapCoordinate().getX();
+                double locateY = CMXresult[0].getMapCoordinate().getY();
+                double CoXX = ((372*locateX)/345)+4;
+                double CoYY= ((268*locateY)/243)+124;
+                int CoX = (int)CoXX;
+                int CoY = (int)CoYY;
+                String[] res = {Integer.toString(CoX),Integer.toString(CoY)};
+//                canvas.drawCircle(CoX, CoY, 2, paint);
+                //invalidate to update bitmap in imageview
+//                imgView2.invalidate();
+
+
+
+            return res;
+        }
+
+        @Override
+        protected void onPostExecute(String[] s) {
+
+            super.onPostExecute(s);
+
+            int x = Integer.valueOf(s[0]);
+            int y = Integer.valueOf(s[1]);
 
             Bitmap bitMap = Bitmap.createBitmap(380 , 516, Bitmap.Config.ARGB_8888);  //creates bmp
             bitMap = bitMap.copy(bitMap.getConfig(), true);     //lets bmp to be mutable
@@ -175,26 +205,8 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
             imgView2.bringToFront();
             imgView2.setImageBitmap(bitMap);
 
-            for(int i=0; i<= CMXresult.length;i++){
-
-                double locateX = CMXresult[0].getMapCoordinate().getX();
-                double locateY = CMXresult[0].getMapCoordinate().getY();
-                double CoXX = ((372*locateX)/345)+4;
-                double CoYY= ((268*locateY)/243)+124;
-                int CoX = (int)CoXX;
-                int CoY = (int)CoYY;
-                canvas.drawCircle(CoX, CoY, 2, paint);
-                //invalidate to update bitmap in imageview
-                imgView2.invalidate();
-
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
+            canvas.drawCircle(x, y, 2, paint);
+            imgView2.invalidate();
         }
     }
 
