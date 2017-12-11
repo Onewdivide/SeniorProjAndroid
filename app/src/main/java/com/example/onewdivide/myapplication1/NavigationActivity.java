@@ -64,7 +64,8 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
     private ImageView imgView2;
     private int CoX,CoY,wantX,wantY;
     private int[] vrCurrent = {1,2};
-    private List<int[]> VirtualCurrrntLocation;
+    private List<Integer> VirtualCurrentLocationOnX = new ArrayList<>();
+    private List<Integer> VirtualCurrentLocationOnY = new ArrayList<>();
     public List<String> resultPath;
     public int checkWord;
     final public Handler handler = new Handler();
@@ -75,6 +76,43 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
+
+        //Add VirtualCurrentLocation
+        VirtualCurrentLocationOnX.add(230);
+        VirtualCurrentLocationOnY.add(83);
+
+        VirtualCurrentLocationOnX.add(232);
+        VirtualCurrentLocationOnY.add(82);
+
+        VirtualCurrentLocationOnX.add(234);
+        VirtualCurrentLocationOnY.add(82);
+
+        VirtualCurrentLocationOnX.add(234);
+        VirtualCurrentLocationOnY.add(78);
+
+        VirtualCurrentLocationOnX.add(234);
+        VirtualCurrentLocationOnY.add(75);
+
+        VirtualCurrentLocationOnX.add(234);
+        VirtualCurrentLocationOnY.add(72);
+
+        VirtualCurrentLocationOnX.add(234);
+        VirtualCurrentLocationOnY.add(70);
+
+        VirtualCurrentLocationOnX.add(234);
+        VirtualCurrentLocationOnY.add(67);
+
+        VirtualCurrentLocationOnX.add(234);
+        VirtualCurrentLocationOnY.add(63);
+
+        VirtualCurrentLocationOnX.add(234);
+        VirtualCurrentLocationOnY.add(59);
+
+        VirtualCurrentLocationOnX.add(234);
+        VirtualCurrentLocationOnY.add(57);
+
+        VirtualCurrentLocationOnX.add(234);
+        VirtualCurrentLocationOnY.add(53);
 
         //Vertex at each place
         Vertex Entrance1 = new Vertex("Entrance1");
@@ -134,8 +172,61 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
         Vertex Node24 = new Vertex("Node24");
         Vertex Node25 = new Vertex("Node25");
 
+        //innput location
+        Entrance1.inputLocation(new int[]{234, 53});
+        Ladder1.inputLocation(new int[]{239,70});
+        Toilet1Man.inputLocation(new int[]{278,77});
+        Toilet1Woman.inputLocation(new int[]{272,71});
+        Library.inputLocation(new int[]{230,83});
+        DSSRoom.inputLocation(new int[]{240,103});
+        ATRoom.inputLocation(new int[]{262,158});
+        Entrance2.inputLocation(new int[]{281,171});
+        PublicRelation.inputLocation(new int[]{273,183});
+//        int[] Room102test = {251,184};
+//        int[] Ladder2test = {227,184};
+//        int[] Lifttest = {220,175};
+//        int[] Room104test = {203,175};
+//        int[] Room105test = {188,168};
+//        int[] KKRoomtest = {180,194};
+//        int[] Room107test = {153,168};
+//        int[] Room108test = {127,168};
+//        int[] Room110test = {122,168};
+//        int[] Toilet2Mantest = {95,202};
+//        int[] Toilet2Womantest = {89,200};
+//        int[] Ladder3test = {88,168};
+//        int[] CopyStoretest = {78,163};
+//        int[] Room115test = {114,134};
+//        int[] Room116test = {114,129};
+//        int[] Room118test = {120,106};
+        Node2.inputLocation(new int[]{234,70});
+        Node3.inputLocation(new int[]{234,75});
+        Node4.inputLocation(new int[]{262,75});
+        Node5.inputLocation(new int[]{234,82});
+        Node6.inputLocation(new int[]{234,103});
+//        int[] Node8test = {234,163};
+//        int[] Node9test = {234,170};
+//        int[] Node10test = {234,176};
+//        int[] Node11test = {252,170};
+//        int[] Node12test = {262,170};
+//        int[] Node13test = {273,170};
+//        int[] Node14test = {219,176};
+//        int[] Node15test = {188,163};
+//        int[] Node155test = {205,163};
+//        int[] Node16test = {180,163};
+//        int[] Node17test = {180,181};
+//        int[] Node18test = {153,163};
+//        int[] Node19test = {127,163};
+//        int[] Node20test = {121,163};
+//        int[] Node205test = {118,163};
+//        int[] Node21test = {118,134};
+//        int[] Node22test = {118,128};
+//        int[] Node23test = {93,163};
+//        int[] Node24test = {88,163};
+//        int[] Node25test = {93,190};
+
+
         //this is for CurrentLocation [0] is X, [1] is Y
-        int[] Current = {94,191};
+        int[] Current = {234,52};
         //put x and y of each point in this list
         int[] Entrance1test = {234,53};
         int[] Ladder1test = {239,70};
@@ -360,7 +451,7 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
         Ladder3.adjacencies = new Edge[]{ new Edge(Node24,1.7) };
         CopyStore.adjacencies = new Edge[]{ new Edge(Node24,0.5) };
 
-        final Vertex current = Entrance1;
+        final Vertex current = Library;
         Vertex destination;
         String destinationz = getIntent().getStringExtra("Destination");
         Log.e("pass from last activity", destinationz);
@@ -448,6 +539,21 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
         //Calculate path
         final List<Vertex> path = getShortestPathTo(destination);
         System.out.println("Path: " + path);
+
+//        int SizeOfPath = path.size();
+//        int checkArriveThisNodeYet = 0;
+//        double distanceToThisNode;
+//        for (int i = 0 ; i<VirtualCurrentLocationOnX.size(); i++){
+//            int[] currentRecall = {VirtualCurrentLocationOnX.get(i),VirtualCurrentLocationOnY.get(i)};
+//            if (currentRecall == path.get(checkArriveThisNodeYet).location){
+//                checkArriveThisNodeYet+=1;
+//            }else {
+//                x = currentRecall[0] - path.get(checkArriveThisNodeYet).location[0];
+//                y = currentRecall[1] - path.get(checkArriveThisNodeYet).location[1];
+//                distanceToThisNode = (sqrt(x*x+y*y))*0.28;
+//
+//            }
+//        }
 
         final ArrayList<String> WordInPath = new ArrayList<>();
         for(int i = 0 ; i < path.size(); i++){
@@ -1183,17 +1289,73 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        for (int i =0 ; i<WordInPath.size();i++) {
-                            Log.e("test", "onClick: " + WordInPath.get(i));
-                            MyTTS.getInstance(NavigationActivity.this).speak(WordInPath.get(i));
-                            currentLocation.setText(path.get(i+1).toString());
-                            currentPath.setText(WordInPath.get(i));
 
+                        int SizeOfPath = path.size();
+                        int checkArriveThisNodeYet = 0;
+                        double distanceToThisNode;
+                        String distance;
+                        for (int i = 0 ; i<VirtualCurrentLocationOnX.size(); i++){
+                            int[] currentRecall = {VirtualCurrentLocationOnX.get(i),VirtualCurrentLocationOnY.get(i)};
+                            Log.e("Current Recall : ", String.valueOf(currentRecall[0]+" , "+ currentRecall[1]));
+                            Log.e("checkArrive : ", String.valueOf(checkArriveThisNodeYet));
+                            Log.e("Current Arrive Node : ",String.valueOf(path.get(checkArriveThisNodeYet).location[0]
+                            +" , "+ path.get(checkArriveThisNodeYet).location[1]));
+                            if (currentRecall[0] == path.get(checkArriveThisNodeYet).location[0]
+                                    && currentRecall[1] == path.get(checkArriveThisNodeYet).location[1]){
+
+//
+                                    MyTTS.getInstance(NavigationActivity.this).speak(WordInPath.get(checkArriveThisNodeYet));
+                                    currentLocation.setText(path.get(checkArriveThisNodeYet).toString());
+                                    currentPath.setText(WordInPath.get(checkArriveThisNodeYet));
+                                if (checkArriveThisNodeYet < WordInPath.size()-1){
+                                    checkArriveThisNodeYet+=1;
+                                }else{
+
+                                }
+
+
+                            }else {
+                                int x = currentRecall[0] - path.get(checkArriveThisNodeYet+1).location[0];
+                                int y = currentRecall[1] - path.get(checkArriveThisNodeYet+1).location[1];
+                                distanceToThisNode = (sqrt(x*x+y*y))*0.18;
+                                distance = String.format("%.2f",distanceToThisNode);
+                                Log.e("this is distance : ",String.valueOf(distance));
+                                String wordDistance = "เหลืออีก"+ distance + "เมตร ก่อนจะถึงจุดต่อไป";
+                                if(i == VirtualCurrentLocationOnX.size()-1){
+                                    wordDistance = "ถึงจุดหมายเรียบร้อยแล้ว";
+                                }
+                                MyTTS.getInstance(NavigationActivity.this).speak(wordDistance);
+
+                            }
                         }
+
+//                        for (int i =0 ; i<WordInPath.size();i++) {
+//                            Log.e("test", "onClick: " + WordInPath.get(i));
+//                            MyTTS.getInstance(NavigationActivity.this).speak(WordInPath.get(i));
+//                            currentLocation.setText(path.get(i+1).toString());
+//                            currentPath.setText(WordInPath.get(i));
+//
+//                        }
 
                     }
                 }, 1000);
             }
+
+//            int SizeOfPath = path.size();
+//            int checkArriveThisNodeYet = 0;
+//            double distanceToThisNode;
+//        for (int i = 0 ; i<VirtualCurrentLocationOnX.size(); i++){
+//                int[] currentRecall = {VirtualCurrentLocationOnX.get(i),VirtualCurrentLocationOnY.get(i)};
+//                if (currentRecall == path.get(checkArriveThisNodeYet).location){
+//                    checkArriveThisNodeYet+=1;
+//                }else {
+//                    x = currentRecall[0] - path.get(checkArriveThisNodeYet).location[0];
+//                    y = currentRecall[1] - path.get(checkArriveThisNodeYet).location[1];
+//                    distanceToThisNode = (sqrt(x*x+y*y))*0.28;
+//
+//                }
+//            }
+
         });
 }
 
@@ -1395,6 +1557,10 @@ class Vertex implements Comparable<Vertex>
     public Vertex previous;
     public Vertex(String argName) { name = argName; }
     public String toString() { return name; }
+    public int[] location;
+    public void inputLocation (int[] location){
+        this.location = location;
+    }
     public int compareTo(Vertex other)
     {
         return Double.compare(minDistance, other.minDistance);
