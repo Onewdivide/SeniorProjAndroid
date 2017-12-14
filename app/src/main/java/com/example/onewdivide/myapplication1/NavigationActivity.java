@@ -78,6 +78,42 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
         setContentView(R.layout.activity_navigation);
 
         //Add VirtualCurrentLocation
+//        VirtualCurrentLocationOnX.add(230);
+//        VirtualCurrentLocationOnY.add(83);
+//
+//        VirtualCurrentLocationOnX.add(232);
+//        VirtualCurrentLocationOnY.add(82);
+//
+//        VirtualCurrentLocationOnX.add(234);
+//        VirtualCurrentLocationOnY.add(82);
+//
+//        VirtualCurrentLocationOnX.add(234);
+//        VirtualCurrentLocationOnY.add(78);
+//
+//        VirtualCurrentLocationOnX.add(234);
+//        VirtualCurrentLocationOnY.add(75);
+//
+//        VirtualCurrentLocationOnX.add(234);
+//        VirtualCurrentLocationOnY.add(72);
+//
+//        VirtualCurrentLocationOnX.add(234);
+//        VirtualCurrentLocationOnY.add(70);
+//
+//        VirtualCurrentLocationOnX.add(234);
+//        VirtualCurrentLocationOnY.add(67);
+//
+//        VirtualCurrentLocationOnX.add(234);
+//        VirtualCurrentLocationOnY.add(63);
+//
+//        VirtualCurrentLocationOnX.add(234);
+//        VirtualCurrentLocationOnY.add(59);
+//
+//        VirtualCurrentLocationOnX.add(234);
+//        VirtualCurrentLocationOnY.add(57);
+//
+//        VirtualCurrentLocationOnX.add(234);
+//        VirtualCurrentLocationOnY.add(53);
+
         VirtualCurrentLocationOnX.add(230);
         VirtualCurrentLocationOnY.add(83);
 
@@ -93,26 +129,17 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
         VirtualCurrentLocationOnX.add(234);
         VirtualCurrentLocationOnY.add(75);
 
-        VirtualCurrentLocationOnX.add(234);
-        VirtualCurrentLocationOnY.add(72);
+        VirtualCurrentLocationOnX.add(250);
+        VirtualCurrentLocationOnY.add(75);
 
-        VirtualCurrentLocationOnX.add(234);
-        VirtualCurrentLocationOnY.add(70);
+        VirtualCurrentLocationOnX.add(262);
+        VirtualCurrentLocationOnY.add(75);
 
-        VirtualCurrentLocationOnX.add(234);
-        VirtualCurrentLocationOnY.add(67);
+        VirtualCurrentLocationOnX.add(270);
+        VirtualCurrentLocationOnY.add(75);
 
-        VirtualCurrentLocationOnX.add(234);
-        VirtualCurrentLocationOnY.add(63);
-
-        VirtualCurrentLocationOnX.add(234);
-        VirtualCurrentLocationOnY.add(59);
-
-        VirtualCurrentLocationOnX.add(234);
-        VirtualCurrentLocationOnY.add(57);
-
-        VirtualCurrentLocationOnX.add(234);
-        VirtualCurrentLocationOnY.add(53);
+        VirtualCurrentLocationOnX.add(278);
+        VirtualCurrentLocationOnY.add(77);
 
         //Vertex at each place
         Vertex Entrance1 = new Vertex("Entrance1");
@@ -1303,7 +1330,7 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
                             if (currentRecall[0] == path.get(checkArriveThisNodeYet).location[0]
                                     && currentRecall[1] == path.get(checkArriveThisNodeYet).location[1]){
 
-//
+
                                     MyTTS.getInstance(NavigationActivity.this).speak(WordInPath.get(checkArriveThisNodeYet));
                                     currentLocation.setText(path.get(checkArriveThisNodeYet).toString());
                                     currentPath.setText(WordInPath.get(checkArriveThisNodeYet));
@@ -1315,10 +1342,20 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
 
 
                             }else {
-                                int x = currentRecall[0] - path.get(checkArriveThisNodeYet+1).location[0];
-                                int y = currentRecall[1] - path.get(checkArriveThisNodeYet+1).location[1];
-                                distanceToThisNode = (sqrt(x*x+y*y))*0.18;
+                                int x = currentRecall[0] - path.get(checkArriveThisNodeYet).location[0];
+                                int y = currentRecall[1] - path.get(checkArriveThisNodeYet).location[1];
+                                Log.e("Rx : " , String.valueOf(currentRecall[0]));
+                                Log.e("Ry : " , String.valueOf(currentRecall[1]));
+                                Log.e("Px : " , String.valueOf(path.get(checkArriveThisNodeYet).location[0]));
+                                Log.e("Py : " , String.valueOf(path.get(checkArriveThisNodeYet).location[1]));
+                                Log.e("X : " , String.valueOf(x));
+                                Log.e("Y : " , String.valueOf(y));
+                                distanceToThisNode = (sqrt(x*x+y*y));
+                                Log.e("distance2thisBF : " , String.valueOf(distanceToThisNode));
+                                distanceToThisNode = distanceToThisNode*(0.18);
+                                Log.e("distance2thisAT : " , String.valueOf(distanceToThisNode));
                                 distance = String.format("%.2f",distanceToThisNode);
+//                                int tt = parseInt(distance);
                                 Log.e("this is distance : ",String.valueOf(distance));
                                 String wordDistance = "เหลืออีก"+ distance + "เมตร ก่อนจะถึงจุดต่อไป";
                                 if(i == VirtualCurrentLocationOnX.size()-1){
