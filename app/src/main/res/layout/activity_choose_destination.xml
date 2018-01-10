@@ -17,277 +17,31 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/Entrance1"
-        android:layout_width="134dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="ทางเช้าหนึ่ง"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/JustText1" />
-
-    <Button
-        android:id="@+id/Ladder1"
-        android:layout_width="113dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="บันไดหนึ่ง"
-        app:layout_constraintStart_toEndOf="@+id/Entrance1"
-        app:layout_constraintTop_toBottomOf="@+id/JustText1" />
-
-    <Button
-        android:id="@+id/Toilet1Man"
-        android:layout_width="104dp"
-        android:layout_height="47dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="ห้องน้ำชายหึ่ง"
-        app:layout_constraintStart_toEndOf="@+id/Ladder1"
-        app:layout_constraintTop_toBottomOf="@+id/JustText1" />
-
-    <Button
-        android:id="@+id/Toilet1Woman "
-        android:layout_width="188dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="ห้องน้ำหญิงหนึ่ง"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Entrance1" />
-
-    <Button
-        android:id="@+id/Library"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="8dp"
-        android:text="ห้องสมุด"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.086"
-        app:layout_constraintStart_toEndOf="@+id/Toilet1Woman "
-        app:layout_constraintTop_toBottomOf="@+id/Ladder1" />
-
-    <Button
-        android:id="@+id/DSSRoom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="12dp"
-        android:text="ห้อง D S S"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Toilet1Woman " />
-
-    <Button
-        android:id="@+id/ATRoom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="12dp"
-        android:text="ห้อง A T"
-        app:layout_constraintStart_toEndOf="@+id/DSSRoom"
-        app:layout_constraintTop_toBottomOf="@+id/Toilet1Woman " />
-
-    <Button
-        android:id="@+id/Entrance2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="12dp"
-        android:text="ทางเข้า2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.119"
-        app:layout_constraintStart_toEndOf="@+id/ATRoom "
-        app:layout_constraintTop_toBottomOf="@+id/Library " />
-
-    <Button
-        android:id="@+id/PublicRelation"
-        android:layout_width="143dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="ประชาสัมพันธ์"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/DSSRoom" />
-
-    <Button
-        android:id="@+id/Room102"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="ห้อง102"
-        app:layout_constraintStart_toEndOf="@+id/PublicRelation "
-        app:layout_constraintTop_toBottomOf="@+id/ATRoom " />
-
-    <Button
-        android:id="@+id/Ladder2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="บันได2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.242"
-        app:layout_constraintStart_toEndOf="@+id/Room102"
-        app:layout_constraintTop_toBottomOf="@+id/Entrance2 " />
-
-    <Button
-        android:id="@+id/Lift"
-        android:layout_width="69dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="ลิฟต์"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/PublicRelation" />
-
-    <Button
-        android:id="@+id/Room104"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="ห้อง104"
-        app:layout_constraintStart_toEndOf="@+id/Lift"
-        app:layout_constraintTop_toBottomOf="@+id/PublicRelation" />
-
-    <Button
-        android:id="@+id/Room105"
-        android:layout_width="73dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="ห้อง105"
-        app:layout_constraintStart_toEndOf="@+id/Room104"
-        app:layout_constraintTop_toBottomOf="@+id/Room102" />
-
-    <Button
-        android:id="@+id/KKRoom"
-        android:layout_width="111dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="ห้องกิจการ"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/Room105"
-        app:layout_constraintTop_toBottomOf="@+id/Ladder2"
-        tools:layout_editor_absoluteX="252dp" />
-
-    <Button
-        android:id="@+id/Room107"
-        android:layout_width="81dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="ห้อง107"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Lift" />
-
-    <Button
-        android:id="@+id/Room108"
-        android:layout_width="74dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="8dp"
-        android:text="ห้อง108"
-        app:layout_constraintStart_toEndOf="@+id/Room107"
-        app:layout_constraintTop_toBottomOf="@+id/Room104" />
-
-    <Button
-        android:id="@+id/Room110"
-        android:layout_width="77dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="8dp"
-        android:text="ห้อง110"
-        app:layout_constraintStart_toEndOf="@+id/Room108"
-        app:layout_constraintTop_toBottomOf="@+id/Room105" />
-
-    <Button
-        android:id="@+id/Toilet2Man"
-        android:layout_width="125dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="ห้องน้ำชาย2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/Room110"
-        app:layout_constraintTop_toBottomOf="@+id/KKRoom"
-        tools:layout_editor_absoluteX="240dp" />
-
-    <Button
-        android:id="@+id/Toilet2Woman"
-        android:layout_width="134dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="ห้องน้ำหญิง2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Room107" />
-
-    <Button
-        android:id="@+id/Ladder3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="8dp"
-        android:text="บันได3"
-        app:layout_constraintStart_toEndOf="@+id/Toilet2Woman"
-        app:layout_constraintTop_toBottomOf="@+id/Room108" />
-
-    <Button
-        android:id="@+id/CopyStore"
-        android:layout_width="142dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="ร้านถ่ายเอกสาร"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/Ladder3"
-        app:layout_constraintTop_toBottomOf="@+id/Toilet2Man"
-        tools:layout_editor_absoluteX="228dp" />
-
-    <Button
-        android:id="@+id/Room115"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="ห้อง115"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Toilet2Woman" />
-
-    <Button
-        android:id="@+id/Room116"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="ห้อง116"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/Room115"
-        app:layout_constraintTop_toBottomOf="@+id/Ladder3" />
-
-    <Button
-        android:id="@+id/Room118"
-        android:layout_width="wrap_content"
+        android:id="@+id/thisbutton"
+        android:layout_width="187dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="ห้อง118"
+        android:text="confirm"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/Room116"
-        app:layout_constraintTop_toBottomOf="@+id/CopyStore" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mainwheel" />
+
+    <com.aigestudio.wheelpicker.WheelPicker
+        android:id="@+id/mainwheel"
+
+        android:layout_width="242dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="92dp"
+        android:background="#E5DEEB"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/JustText1" />
+
+
 </android.support.constraint.ConstraintLayout>
