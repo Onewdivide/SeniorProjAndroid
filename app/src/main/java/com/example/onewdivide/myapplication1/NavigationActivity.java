@@ -32,6 +32,7 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -73,19 +74,27 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
     public TextView currentLocation;
     public TextView currentPath;
     public List<Vertex> path;
-    public int loopcount;
+    public int loopcount = 0;
     public double distanceToThisNode;
     public int checkArriveThisNodeYet;
     public ArrayList<String> WordInPath = new ArrayList<>();
+    public int APIcallCurrentlocationX, APIcallCurrentLocationY;
+    public int checkOnDestinationYet = 0;
 
     private final Runnable runnable  = new Runnable() {
         @Override
         public void run() {
-            if (loopcount < VirtualCurrentLocationOnX.size()-1){
+            if (checkOnDestinationYet == 0 ){
 
 
-
+//                new FeedJSONTaskCurrentLocation().execute("");
+//                int[] currentRecall = {APIcallCurrentlocationX,APIcallCurrentLocationY};
+                for (int test = 0; test<WordInPath.size();test++){
+                    Log.e("wordInPath",WordInPath.get(test));
+                }
                 int[] currentRecall = {VirtualCurrentLocationOnX.get(loopcount),VirtualCurrentLocationOnY.get(loopcount)};
+                Log.e("Show Case","Show VirtualX : "+VirtualCurrentLocationOnX.get(loopcount).toString()
+                        + "Show VirtualY : "+VirtualCurrentLocationOnY.get(loopcount).toString());
 //                Log.e("Current Recall : ", String.valueOf(currentRecall[0]+" , "+ currentRecall[1]));
 //                Log.e("checkArrive : ", String.valueOf(checkArriveThisNodeYet));
 //                Log.e("Current Arrive Node : ",String.valueOf(path.get(checkArriveThisNodeYet).location[0]
@@ -97,14 +106,23 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
 //                Log.e("virtualPathTestY",String.valueOf(currentRecall[1]));
                 if (currentRecall[0] == path.get(checkArriveThisNodeYet).location[0]
                         && currentRecall[1] == path.get(checkArriveThisNodeYet).location[1]){
+                    // on this condition fix it to < xMax, < yMax and > xMin, > yMin
                     loopcount +=1 ;
                     currentLocation.setText("On point!");
-                    currentPath.setText(WordInPath.get(checkArriveThisNodeYet));
+//                    currentPath.setText(WordInPath.get(checkArriveThisNodeYet));
 //                    Log.e("OnPoint!", path.get(loopcount).toString());
-//                    checkArriveThisNodeYet+=1;
+
                     if (checkArriveThisNodeYet < WordInPath.size()){
-                        checkArriveThisNodeYet+=1;
+                        currentPath.setText(WordInPath.get(checkArriveThisNodeYet));
+//                        checkArriveThisNodeYet+=1;
                     }
+                    else{
+                        checkOnDestinationYet = 1;
+                        currentPath.setText("ถึงจุดหมายเรียบร้อยแล้ว");
+                    }
+                    checkArriveThisNodeYet+=1;
+                    Log.e("Debug >>" ,"This is checkArriveThisNodeYet : "+checkArriveThisNodeYet
+                    +" and this is WordInpath.size : "+WordInPath.size() + "This is loopcount : "+loopcount);
                     MyTTS.getInstance(NavigationActivity.this).speak(currentPath.getText().toString());
 
                     handler.postDelayed(runnable,4000L);
@@ -114,7 +132,6 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
                     int x = currentRecall[0] - path.get(checkArriveThisNodeYet).location[0];
                     int y = currentRecall[1] - path.get(checkArriveThisNodeYet).location[1];
                     loopcount +=1  ;
-//                    checkArriveThisNodeYet+=1;
 //                    Log.e("Rx : " , String.valueOf(currentRecall[0]));
 //                    Log.e("Ry : " , String.valueOf(currentRecall[1]));
 //                    Log.e("Px : " , String.valueOf(path.get(checkArriveThisNodeYet-1).location[0]));
@@ -130,14 +147,16 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
 //                    Log.e("this is distance : ",String.valueOf(distance));
                     String wordDistance = "เหลืออีก"+ distance + "เมตร ก่อนจะถึงจุดต่อไป";
 
-                    if(loopcount == VirtualCurrentLocationOnX.size()-1){
-                        wordDistance = "ถึงจุดหมายเรียบร้อยแล้ว";
-                    }
+//                    if(loopcount == VirtualCurrentLocationOnX.size()-1){
+//                        checkOnDestinationYet = 1;
+//                        wordDistance = "ถึงจุดหมายเรียบร้อยแล้ว";
+//                    }
 
                     currentLocation.setText("Continue...");
                     currentPath.setText(wordDistance);
 //                    Log.e("Continue...", wordDistance);
-
+                    Log.e("Debug >>" ,"This is checkArriveThisNodeYet : "+checkArriveThisNodeYet
+                            +" and this is WordInpath.size : "+WordInPath.size() + "This is loopcount : "+loopcount);
                     MyTTS.getInstance(NavigationActivity.this).speak(currentPath.getText().toString());
 
                     handler.postDelayed(runnable,4000L);
@@ -1495,107 +1514,109 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
         runLoopWithDelay();
     }
 
-
-    public class FeedJSONTask extends AsyncTask<String[], Void, String[]> {
-
-        @Override
-        protected String[] doInBackground(String[]... strings) {
-            String result = FeedJSON();
-            Gson gson = new Gson();
-            Type collectionType = new TypeToken<Collection<CMXResponse>>() {}.getType();
-            Collection<CMXResponse> enums = gson.fromJson(result, collectionType);
-            CMXResponse[] CMXresult = enums.toArray(new CMXResponse[enums.size()]);
-
+//  this for redpoint on map example
+//    public class FeedJSONTask extends AsyncTask<String[], Void, String[]> {
+//
+//        @Override
+//        protected String[] doInBackground(String[]... strings) {
+//            String result = FeedJSON();
+//            Gson gson = new Gson();
+//            Type collectionType = new TypeToken<Collection<CMXResponse>>() {}.getType();
+//            Collection<CMXResponse> enums = gson.fromJson(result, collectionType);
+//            CMXResponse[] CMXresult = enums.toArray(new CMXResponse[enums.size()]);
+//
+////            Bitmap bitMap = Bitmap.createBitmap(380 , 516, Bitmap.Config.ARGB_8888);  //creates bmp
+////            bitMap = bitMap.copy(bitMap.getConfig(), true);     //lets bmp to be mutable
+////            Canvas canvas = new Canvas(bitMap);                 //draw a canvas in defined bmp
+//
+////            Paint paint = new Paint();                          //define paint and paint color
+////            paint.setColor(Color.RED);
+////            paint.setStyle(Paint.Style.FILL_AND_STROKE);
+////            //paint.setStrokeWidth(0.5f);
+////            paint.setAntiAlias(true);                           //smooth edges
+//
+////            imgView2 = (ImageView) findViewById(R.id.imageView2);
+////            imgView2.bringToFront();
+////            imgView2.setImageBitmap(bitMap);
+//
+//                double locateX = CMXresult[0].getMapCoordinate().getX();
+//                double locateY = CMXresult[0].getMapCoordinate().getY();
+//                double CoXX = ((372*locateX)/345)+4;
+//                double CoYY= ((268*locateY)/243)+124;
+//                int CoX = (int)CoXX;
+//                int CoY = (int)CoYY;
+//                String[] res = {Integer.toString(CoX),Integer.toString(CoY)};
+////                canvas.drawCircle(CoX, CoY, 2, paint);
+//                //invalidate to update bitmap in imageview
+////                imgView2.invalidate();
+//
+//
+//
+//            return res;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(String[] s) {
+//
+//            super.onPostExecute(s);
+//
+//            int x = Integer.valueOf(s[0]);
+//            int y = Integer.valueOf(s[1]);
+//
 //            Bitmap bitMap = Bitmap.createBitmap(380 , 516, Bitmap.Config.ARGB_8888);  //creates bmp
 //            bitMap = bitMap.copy(bitMap.getConfig(), true);     //lets bmp to be mutable
 //            Canvas canvas = new Canvas(bitMap);                 //draw a canvas in defined bmp
-
+//
 //            Paint paint = new Paint();                          //define paint and paint color
 //            paint.setColor(Color.RED);
 //            paint.setStyle(Paint.Style.FILL_AND_STROKE);
 //            //paint.setStrokeWidth(0.5f);
 //            paint.setAntiAlias(true);                           //smooth edges
-
+//
 //            imgView2 = (ImageView) findViewById(R.id.imageView2);
 //            imgView2.bringToFront();
 //            imgView2.setImageBitmap(bitMap);
-
-                double locateX = CMXresult[0].getMapCoordinate().getX();
-                double locateY = CMXresult[0].getMapCoordinate().getY();
-                double CoXX = ((372*locateX)/345)+4;
-                double CoYY= ((268*locateY)/243)+124;
-                int CoX = (int)CoXX;
-                int CoY = (int)CoYY;
-                String[] res = {Integer.toString(CoX),Integer.toString(CoY)};
-//                canvas.drawCircle(CoX, CoY, 2, paint);
-                //invalidate to update bitmap in imageview
-//                imgView2.invalidate();
+//
+//            canvas.drawCircle(x, y, 2, paint);
+//            imgView2.invalidate();
+//        }
+//    }
 
 
-
-            return res;
-        }
-
-        @Override
-        protected void onPostExecute(String[] s) {
-
-            super.onPostExecute(s);
-
-            int x = Integer.valueOf(s[0]);
-            int y = Integer.valueOf(s[1]);
-
-            Bitmap bitMap = Bitmap.createBitmap(380 , 516, Bitmap.Config.ARGB_8888);  //creates bmp
-            bitMap = bitMap.copy(bitMap.getConfig(), true);     //lets bmp to be mutable
-            Canvas canvas = new Canvas(bitMap);                 //draw a canvas in defined bmp
-
-            Paint paint = new Paint();                          //define paint and paint color
-            paint.setColor(Color.RED);
-            paint.setStyle(Paint.Style.FILL_AND_STROKE);
-            //paint.setStrokeWidth(0.5f);
-            paint.setAntiAlias(true);                           //smooth edges
-
-            imgView2 = (ImageView) findViewById(R.id.imageView2);
-            imgView2.bringToFront();
-            imgView2.setImageBitmap(bitMap);
-
-            canvas.drawCircle(x, y, 2, paint);
-            imgView2.invalidate();
-        }
-    }
-
-    private String FeedJSON(){
-
-        try {
-
-            HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-            logging.setLevel(HttpLoggingInterceptor.Level.HEADERS);
-
-            OkHttpClient client = SelfSigningClientBuilder.createClient()
-                    .authenticator(new Authenticator() {
-                        @Nullable
-                        @Override
-                        public Request authenticate(Route route, Response response) throws IOException {
-                            String credential = Credentials.basic("dev", "dev12345");
-                            return response.request().newBuilder().header("Authorization", credential).build();
-                        }
-                    }).addInterceptor(logging).build();
-
-            Request request = new Request.Builder().url(LocationHistoryURL)
-                    .build();
-
-            try {
-                Response response = client.newCall(request).execute();
-                String result = response.body().string();
-                return result;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-        }catch (Exception e){
-
-        }
-        return null;
-    }
+//    this is feedjson function for redpoint on map example
+//    private String FeedJSON(){
+//
+//        try {
+//
+//            HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+//            logging.setLevel(HttpLoggingInterceptor.Level.HEADERS);
+//
+//            OkHttpClient client = SelfSigningClientBuilder.createClient()
+//                    .authenticator(new Authenticator() {
+//                        @Nullable
+//                        @Override
+//                        public Request authenticate(Route route, Response response) throws IOException {
+//                            String credential = Credentials.basic("dev", "dev12345");
+//                            return response.request().newBuilder().header("Authorization", credential).build();
+//                        }
+//                    }).addInterceptor(logging).build();
+//
+//            Request request = new Request.Builder().url(LocationHistoryURL)
+//                    .build();
+//
+//            try {
+//                Response response = client.newCall(request).execute();
+//                String result = response.body().string();
+//                return result;
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//
+//        }catch (Exception e){
+//
+//        }
+//        return null;
+//    }
 
 
 
@@ -1676,6 +1697,99 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
         return path;
     }
 
+
+    public class FeedJSONTaskCurrentLocation extends AsyncTask<String, Void, String[]> {
+
+        @Override
+        protected String[] doInBackground(String... strings) {
+            String result = FeedJSON();
+            Gson gson = new Gson();
+//            Type collectionType = new TypeToken<Collection<CMXResponse>>() {}.getType();
+//            Collection<CMXResponse> enums = gson.fromJson(result, collectionType);
+//            CMXResponse[] CMXresult = enums.toArray(new CMXResponse[enums.size()]);
+
+            CurrentLocationResponse[] currentLocationResponse = gson.fromJson(result, CurrentLocationResponse[].class);
+//            String[] currentResponseLast = {currentLocationResponse.getMapCoordinate().getX()};
+//            String test = result.get()
+            double locateX = 0;
+            double locateY = 0;
+            String currentServerTime = "";
+            String firstLocateTime = "";
+            String lastLocateTime = "";
+            locateX = currentLocationResponse[0].getMapCoordinate().getX();
+            locateY = currentLocationResponse[0].getMapCoordinate().getY();
+            currentServerTime = currentLocationResponse[0].getStatistics().getCurrentServerTime();
+            firstLocateTime = currentLocationResponse[0].getStatistics().getFirstLocatedTime();
+            lastLocateTime = currentLocationResponse[0].getStatistics().getLastLocatedTime();
+//            double CoXX = ((372*locateX)/345)+4;
+//            double CoYY= ((268*locateY)/243)+124;
+            int CoX = (int)locateX;
+            int CoY = (int)locateY;
+            String[] res = {Integer.toString(CoX),Integer.toString(CoY),currentServerTime,firstLocateTime,lastLocateTime};
+
+
+            return res;
+        }
+
+        @Override
+        protected void onPostExecute(String[] s) {
+
+            super.onPostExecute(s);
+//            TextView CurrentX = (TextView) findViewById(R.id.CurrentX);
+//            TextView CurrentY = (TextView) findViewById(R.id.CurrentY);
+//            TextView ServerTime = (TextView) findViewById(R.id.ServerTime);
+//            TextView FirstLocatedTime = (TextView) findViewById(R.id.FirstLocateTime);
+//            TextView LastLocatedTime = (TextView) findViewById(R.id.LastLocateTime);
+//            TextView SuccessTimeStamp = (TextView) findViewById(R.id.SuccessTimeStamp);
+//
+//            CurrentX.setText(s[0]);
+//            CurrentY.setText(s[1]);
+//            ServerTime.setText(s[2]);
+//            FirstLocatedTime.setText(s[3]);
+//            LastLocatedTime.setText(s[4]);
+//            Timestamp timestamplast = new Timestamp(System.currentTimeMillis());
+//            SuccessTimeStamp.setText(String.valueOf(timestamplast.getTime()));
+
+//            currentRecall = new int[]{parseInt(s[0]), parseInt(s[1])};
+            APIcallCurrentlocationX = parseInt(s[0]);
+            APIcallCurrentLocationY = parseInt(s[1]);
+        }
+    }
+
+    private String FeedJSON(){
+
+        try {
+
+            HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+            logging.setLevel(HttpLoggingInterceptor.Level.HEADERS);
+
+            OkHttpClient client = SelfSigningClientBuilder.createClient()
+                    .authenticator(new Authenticator() {
+                        @Nullable
+                        @Override
+                        public Request authenticate(Route route, Response response) throws IOException {
+                            String credential = Credentials.basic("dev", "dev12345");
+                            return response.request().newBuilder().header("Authorization", credential).build();
+                        }
+                    }).addInterceptor(logging).build();
+//            https://10.34.250.12/api/location/v1/history/clients/78%3A4f%3A43%3A8a%3Adb%3Aab?date=2017%2F09%2F19
+//            https://10.34.250.12/api/location/v2/clients?macAddress=0a:4f:83:17:19:7b
+            Request request = new Request.Builder().url("https://10.34.250.12/api/location/v2/clients?macAddress=60:83:34:6D:11:8D")
+                    .build();
+
+            try {
+                Response response = client.newCall(request).execute();
+                String result = response.body().string();
+                return result;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }catch (Exception e){
+
+        }
+        return null;
+    }
 
 }
 
