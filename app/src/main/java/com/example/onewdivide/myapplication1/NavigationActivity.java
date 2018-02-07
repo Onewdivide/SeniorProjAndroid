@@ -81,6 +81,7 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
     public ArrayList<String> WordInPath = new ArrayList<>();
     public int APIcallCurrentlocationX, APIcallCurrentLocationY;
     public int checkOnDestinationYet = 0;
+    public Vertex startLocation;
 
     private final Runnable runnable  = new Runnable() {
         @Override
@@ -88,12 +89,12 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
             if (checkOnDestinationYet == 0 ){
 
 
-//                new FeedJSONTaskCurrentLocation().execute("");
-//                int[] currentRecall = {APIcallCurrentlocationX,APIcallCurrentLocationY};
+                new FeedJSONTaskCurrentLocation().execute("");
+                int[] currentRecall = {APIcallCurrentlocationX,APIcallCurrentLocationY};
 //                for (int test = 0; test<WordInPath.size();test++){
 //                    Log.e("wordInPath",WordInPath.get(test));
 //                }
-                int[] currentRecall = {VirtualCurrentLocationOnX.get(loopcount),VirtualCurrentLocationOnY.get(loopcount)};
+//                int[] currentRecall = {VirtualCurrentLocationOnX.get(loopcount),VirtualCurrentLocationOnY.get(loopcount)};
 //                Log.e("Show Case","Show VirtualX : "+VirtualCurrentLocationOnX.get(loopcount).toString()
 //                        + "Show VirtualY : "+VirtualCurrentLocationOnY.get(loopcount).toString());
 //                Log.e("Current Recall : ", String.valueOf(currentRecall[0]+" , "+ currentRecall[1]));
@@ -544,60 +545,63 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
                 checkInEachXandY = i+1;
             }
         }
+
         HashMap NumWithPlace = new HashMap();
-        NumWithPlace.put(1, "Entrance1");
-        NumWithPlace.put(2, "Ladder1");
-        NumWithPlace.put(3, "Toilet1Man");
-        NumWithPlace.put(4, "Toilet1Woman");
-        NumWithPlace.put(5, "Library");
-        NumWithPlace.put(6, "DSSRoom");
-        NumWithPlace.put(7, "ATRoom");
-        NumWithPlace.put(8, "Entrance2");
-        NumWithPlace.put(9, "PublicRelation");
-        NumWithPlace.put(10, "Room102");
-        NumWithPlace.put(11, "Ladder2");
-        NumWithPlace.put(12, "Lift");
-        NumWithPlace.put(13, "Room104");
-        NumWithPlace.put(14, "Room105");
-        NumWithPlace.put(15, "KKRoom");
-        NumWithPlace.put(16, "Room107");
-        NumWithPlace.put(17, "Room108");
-        NumWithPlace.put(18, "Room110");
-        NumWithPlace.put(19, "Toilet2Man");
-        NumWithPlace.put(20, "Toilet2Woman");
-        NumWithPlace.put(21, "Ladder3");
-        NumWithPlace.put(22, "CopyStore");
-        NumWithPlace.put(23, "Room115");
-        NumWithPlace.put(24, "Room116");
-        NumWithPlace.put(25, "Room118");
-        NumWithPlace.put(26, "Node2");
-        NumWithPlace.put(27, "Node3");
-        NumWithPlace.put(28, "Node4");
-        NumWithPlace.put(29, "Node5");
-        NumWithPlace.put(30, "Node6");
-        NumWithPlace.put(31, "Node8");
-        NumWithPlace.put(32, "Node9");
-        NumWithPlace.put(33, "Node10");
-        NumWithPlace.put(34, "Node11");
-        NumWithPlace.put(35, "Node12");
-        NumWithPlace.put(36, "Node13");
-        NumWithPlace.put(37, "Node14");
-        NumWithPlace.put(38, "Node15");
-        NumWithPlace.put(39, "Node155");
-        NumWithPlace.put(40, "Node16");
-        NumWithPlace.put(41, "Node17");
-        NumWithPlace.put(42, "Node18");
-        NumWithPlace.put(43, "Node19");
-        NumWithPlace.put(44, "Node20");
-        NumWithPlace.put(45, "Node205");
-        NumWithPlace.put(46, "Node21");
-        NumWithPlace.put(47, "Node22");
-        NumWithPlace.put(48, "Node23");
-        NumWithPlace.put(49, "Node24");
-        NumWithPlace.put(50, "Node25");
+        NumWithPlace.put(1, Entrance1);
+        NumWithPlace.put(2, Ladder1);
+        NumWithPlace.put(3, Toilet1Man);
+        NumWithPlace.put(4, Toilet1Woman);
+        NumWithPlace.put(5, Library);
+        NumWithPlace.put(6, DSSRoom);
+        NumWithPlace.put(7, ATRoom);
+        NumWithPlace.put(8, Entrance2);
+        NumWithPlace.put(9, PublicRelation);
+        NumWithPlace.put(10, Room102);
+        NumWithPlace.put(11, Ladder2);
+        NumWithPlace.put(12, Lift);
+        NumWithPlace.put(13, Room104);
+        NumWithPlace.put(14, Room105);
+        NumWithPlace.put(15, KKRoom);
+        NumWithPlace.put(16, Room107);
+        NumWithPlace.put(17, Room108);
+        NumWithPlace.put(18, Room110);
+        NumWithPlace.put(19, Toilet2Man);
+        NumWithPlace.put(20, Toilet2Woman);
+        NumWithPlace.put(21, Ladder3);
+        NumWithPlace.put(22, CopyStore);
+        NumWithPlace.put(23, Room115);
+        NumWithPlace.put(24, Room116);
+        NumWithPlace.put(25, Room118);
+        NumWithPlace.put(26, Node2);
+        NumWithPlace.put(27, Node3);
+        NumWithPlace.put(28, Node4);
+        NumWithPlace.put(29, Node5);
+        NumWithPlace.put(30, Node6);
+        NumWithPlace.put(31, Node8);
+        NumWithPlace.put(32, Node9);
+        NumWithPlace.put(33, Node10);
+        NumWithPlace.put(34, Node11);
+        NumWithPlace.put(35, Node12);
+        NumWithPlace.put(36, Node13);
+        NumWithPlace.put(37, Node14);
+        NumWithPlace.put(38, Node15);
+        NumWithPlace.put(39, Node155);
+        NumWithPlace.put(40, Node16);
+//        NumWithPlace.put(41, "Node17");
+        NumWithPlace.put(42, Node18);
+        NumWithPlace.put(43, Node19);
+        NumWithPlace.put(44, Node20);
+        NumWithPlace.put(45, Node205);
+        NumWithPlace.put(46, Node21);
+        NumWithPlace.put(47, Node22);
+        NumWithPlace.put(48, Node23);
+        NumWithPlace.put(49, Node24);
+        NumWithPlace.put(50, Node25);
 
-
-        System.out.println("Your Current Location is : "+ NumWithPlace.get(checkInEachXandY));
+        startLocation = (Vertex) NumWithPlace.get(checkInEachXandY);
+        currentLocation.setText(startLocation.toString());
+        MyTTS.getInstance(NavigationActivity.this).speak("ตอนนี้คุณอยู่ที่"+currentLocation.getText().toString());
+//        System.out.println("Your Current Location is : "+ NumWithPlace.get(checkInEachXandY));
 
         //Put in all path
         Entrance1.adjacencies = new Edge[]{ new Edge(Node2,5)};
@@ -652,7 +656,7 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
         CopyStore.adjacencies = new Edge[]{ new Edge(Node24,0.5) };
 
         //we're setting that first location is Library don't forget to change this location to dynamic
-        final Vertex current = Library;
+        final Vertex current = startLocation;
         Vertex destination;
         String destinationz = getIntent().getStringExtra("Destination");
         Log.e("pass from last activity", destinationz);
