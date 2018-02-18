@@ -29,6 +29,8 @@ import com.aigestudio.wheelpicker.WheelPicker;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.w3c.dom.Text;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
@@ -73,6 +75,7 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
     public String distance;
     public TextView currentLocation;
     public TextView currentPath;
+    public TextView xyLocation,OnTheWayTest;
     public List<Vertex> path;
     public int loopcount = 1;
     public int tempcheck = 0;
@@ -82,6 +85,7 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
     public int APIcallCurrentlocationX, APIcallCurrentLocationY;
     public int checkOnDestinationYet = 0;
     public Vertex startLocation;
+    public boolean inLoopFirstTime = true;
 
     private final Runnable runnable  = new Runnable() {
         @Override
@@ -90,7 +94,16 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
 
 
                 new FeedJSONTaskCurrentLocation().execute("");
-                int[] currentRecall = {APIcallCurrentlocationX,APIcallCurrentLocationY};
+                int[] currentRecall;
+                if (inLoopFirstTime){
+                    currentRecall = new int[]{parseInt(getIntent().getStringExtra("startX")),
+                            parseInt(getIntent().getStringExtra("startY"))};
+                    inLoopFirstTime = false;
+                }
+                else{
+                    currentRecall = new int[]{APIcallCurrentlocationX, APIcallCurrentLocationY};
+                }
+                xyLocation.setText(APIcallCurrentlocationX+","+APIcallCurrentLocationY);
 //                for (int test = 0; test<WordInPath.size();test++){
 //                    Log.e("wordInPath",WordInPath.get(test));
 //                }
@@ -136,7 +149,7 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
                     handler.postDelayed(runnable,4000L);
                 }
                 else{
-
+                    OnTheWayTest.setText(path.get(checkArriveThisNodeYet).toString());
                     int x = currentRecall[0] - path.get(checkArriveThisNodeYet).location[0];
                     int y = currentRecall[1] - path.get(checkArriveThisNodeYet).location[1];
                     loopcount +=1  ;
@@ -194,7 +207,8 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
 //        final TextView currentPath = (TextView) findViewById(R.id.textView7);
         currentLocation = (TextView) findViewById(R.id.textView5);
         currentPath = (TextView) findViewById(R.id.textView7);
-
+        OnTheWayTest = (TextView) findViewById(R.id.OnTheWayTest);
+        xyLocation = (TextView) findViewById(R.id.xyLocation);
         btnSubmit.setOnClickListener(this);
 
         //Add VirtualCurrentLocation
@@ -234,32 +248,34 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
 //        VirtualCurrentLocationOnX.add(234);
 //        VirtualCurrentLocationOnY.add(53);
 
-        VirtualCurrentLocationOnX.add(230);
-        VirtualCurrentLocationOnY.add(83);
+//
 
-        VirtualCurrentLocationOnX.add(232);
-        VirtualCurrentLocationOnY.add(82);
-
-        VirtualCurrentLocationOnX.add(234);
-        VirtualCurrentLocationOnY.add(82);
-
-        VirtualCurrentLocationOnX.add(234);
-        VirtualCurrentLocationOnY.add(78);
-
-        VirtualCurrentLocationOnX.add(234);
-        VirtualCurrentLocationOnY.add(75);
-
-        VirtualCurrentLocationOnX.add(250);
-        VirtualCurrentLocationOnY.add(75);
-
-        VirtualCurrentLocationOnX.add(262);
-        VirtualCurrentLocationOnY.add(75);
-
-        VirtualCurrentLocationOnX.add(270);
-        VirtualCurrentLocationOnY.add(75);
-
-        VirtualCurrentLocationOnX.add(270);
-        VirtualCurrentLocationOnY.add(76);
+//        VirtualCurrentLocationOnX.add(230);
+//        VirtualCurrentLocationOnY.add(83);
+//
+//        VirtualCurrentLocationOnX.add(232);
+//        VirtualCurrentLocationOnY.add(82);
+//
+//        VirtualCurrentLocationOnX.add(234);
+//        VirtualCurrentLocationOnY.add(82);
+//
+//        VirtualCurrentLocationOnX.add(234);
+//        VirtualCurrentLocationOnY.add(78);
+//
+//        VirtualCurrentLocationOnX.add(234);
+//        VirtualCurrentLocationOnY.add(75);
+//
+//        VirtualCurrentLocationOnX.add(250);
+//        VirtualCurrentLocationOnY.add(75);
+//
+//        VirtualCurrentLocationOnX.add(262);
+//        VirtualCurrentLocationOnY.add(75);
+//
+//        VirtualCurrentLocationOnX.add(270);
+//        VirtualCurrentLocationOnY.add(75);
+//
+//        VirtualCurrentLocationOnX.add(270);
+//        VirtualCurrentLocationOnY.add(76);
 
         //Vertex at each place
         Vertex Entrance1 = new Vertex("Entrance1");
@@ -329,47 +345,47 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
         ATRoom.inputLocation(new int[]{262,158});
         Entrance2.inputLocation(new int[]{281,171});
         PublicRelation.inputLocation(new int[]{273,183});
-//        int[] Room102test = {251,184};
-//        int[] Ladder2test = {227,184};
-//        int[] Lifttest = {220,175};
-//        int[] Room104test = {203,175};
-//        int[] Room105test = {188,168};
-//        int[] KKRoomtest = {180,194};
-//        int[] Room107test = {153,168};
-//        int[] Room108test = {127,168};
-//        int[] Room110test = {122,168};
-//        int[] Toilet2Mantest = {95,202};
-//        int[] Toilet2Womantest = {89,200};
-//        int[] Ladder3test = {88,168};
-//        int[] CopyStoretest = {78,163};
-//        int[] Room115test = {114,134};
-//        int[] Room116test = {114,129};
-//        int[] Room118test = {120,106};
+        Room102.inputLocation(new int[]{251,184});
+        Ladder2.inputLocation(new int[]{227,184});
+        Lift.inputLocation(new int[]{220,175});
+        Room104.inputLocation(new int[]{203,175});
+        Room105.inputLocation(new int[]{188,168});
+        KKRoom.inputLocation(new int[]{180,194});
+        Room107.inputLocation(new int[]{153,168});
+        Room108.inputLocation(new int[]{127,168});
+        Room110.inputLocation(new int[]{122,168});
+        Toilet2Man.inputLocation(new int[]{95,202});
+        Toilet2Woman.inputLocation(new int[]{89,200});
+        Ladder3.inputLocation(new int[]{88,168});
+        CopyStore.inputLocation(new int[]{78,163});
+        Room115.inputLocation(new int[]{114,134});
+        Room116.inputLocation(new int[]{114,129});
+        Room118.inputLocation(new int[]{120,106});
         Node2.inputLocation(new int[]{234,70});
         Node3.inputLocation(new int[]{234,75});
         Node4.inputLocation(new int[]{262,75});
         Node5.inputLocation(new int[]{234,82});
         Node6.inputLocation(new int[]{234,103});
-//        int[] Node8test = {234,163};
-//        int[] Node9test = {234,170};
-//        int[] Node10test = {234,176};
-//        int[] Node11test = {252,170};
-//        int[] Node12test = {262,170};
-//        int[] Node13test = {273,170};
-//        int[] Node14test = {219,176};
-//        int[] Node15test = {188,163};
-//        int[] Node155test = {205,163};
-//        int[] Node16test = {180,163};
+        Node8.inputLocation(new int[]{234,163});
+        Node9.inputLocation(new int[]{234,170});
+        Node10.inputLocation(new int[]{234,176});
+        Node11.inputLocation(new int[]{252,170});
+        Node12.inputLocation(new int[]{262,170});
+        Node13.inputLocation(new int[]{273,170});
+        Node14.inputLocation(new int[]{219,176});
+        Node15.inputLocation(new int[]{188,163});
+        Node155.inputLocation(new int[]{205,163});
+        Node16.inputLocation(new int[]{180,163});
 //        int[] Node17test = {180,181};
-//        int[] Node18test = {153,163};
-//        int[] Node19test = {127,163};
-//        int[] Node20test = {121,163};
-//        int[] Node205test = {118,163};
-//        int[] Node21test = {118,134};
-//        int[] Node22test = {118,128};
-//        int[] Node23test = {93,163};
-//        int[] Node24test = {88,163};
-//        int[] Node25test = {93,190};
+        Node18.inputLocation(new int[]{153,163});
+        Node19.inputLocation(new int[]{127,163});
+        Node20.inputLocation(new int[]{121,163});
+        Node205.inputLocation(new int[]{118,163});
+        Node21.inputLocation(new int[]{118,134});
+        Node22.inputLocation(new int[]{118,128});
+        Node23.inputLocation(new int[]{93,163});
+        Node24.inputLocation(new int[]{88,163});
+        Node25.inputLocation(new int[]{93,190});
 
 
         //this code will port point location system to area location system
@@ -534,11 +550,24 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
 
         int checkInEachXandY = 0;
         double checkLastPithagorus = 100000;
-        int x,y;
+//        new FeedJSONTaskCurrentLocation().execute("");
+
+//        handler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+////                new FeedJSONTaskCurrentLocation().execute("");
+//            }
+//        },3000);
+
+        int x ;
+        int y ;
+        Log.e("callcurrentAtStart:", getIntent().getStringExtra("startX"));
+        Log.e("callcurrentAtStart:", getIntent().getStringExtra("startX"));
+        xyLocation.setText(getIntent().getStringExtra("startX")+","+getIntent().getStringExtra("startY"));
         double Pithagorus;
         for(int i = 0 ; i<EachXandY.size(); i++){
-            x = Current[0] - EachXandY.get(i)[0];
-            y = Current[1] - EachXandY.get(i)[1];
+            x =  parseInt(getIntent().getStringExtra("startX")) - EachXandY.get(i)[0];
+            y =  parseInt(getIntent().getStringExtra("startY")) - EachXandY.get(i)[1];
             Pithagorus = sqrt(x*x+y*y);
             if(Pithagorus<checkLastPithagorus){
                 checkLastPithagorus = Pithagorus;
@@ -599,6 +628,12 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
         NumWithPlace.put(50, Node25);
 
         startLocation = (Vertex) NumWithPlace.get(checkInEachXandY);
+//        handler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                currentLocation.setText(startLocation.toString());
+//            }
+//        },1500);
         currentLocation.setText(startLocation.toString());
         MyTTS.getInstance(NavigationActivity.this).speak("ตอนนี้คุณอยู่ที่"+currentLocation.getText().toString());
 //        System.out.println("Your Current Location is : "+ NumWithPlace.get(checkInEachXandY));
@@ -1788,6 +1823,8 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
             String lastLocateTime = "";
             locateX = currentLocationResponse[0].getMapCoordinate().getX();
             locateY = currentLocationResponse[0].getMapCoordinate().getY();
+            Log.e("test httprequestX :", String.valueOf(currentLocationResponse[0].getMapCoordinate().getX()));
+            Log.e("test httprequestY :",String.valueOf(currentLocationResponse[0].getMapCoordinate().getY()));
             currentServerTime = currentLocationResponse[0].getStatistics().getCurrentServerTime();
             firstLocateTime = currentLocationResponse[0].getStatistics().getFirstLocatedTime();
             lastLocateTime = currentLocationResponse[0].getStatistics().getLastLocatedTime();
@@ -1821,8 +1858,12 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
 //            SuccessTimeStamp.setText(String.valueOf(timestamplast.getTime()));
 
 //            currentRecall = new int[]{parseInt(s[0]), parseInt(s[1])};
+            Log.e("locateX",s[0]);
+            Log.e("locateY",s[1]);
             APIcallCurrentlocationX = parseInt(s[0]);
             APIcallCurrentLocationY = parseInt(s[1]);
+            Log.e("APIcallCurrentLocationX", String.valueOf(APIcallCurrentlocationX));
+            Log.e("APIcallcurrentLocaitonY",String.valueOf(APIcallCurrentLocationY));
         }
     }
 
