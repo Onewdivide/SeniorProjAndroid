@@ -802,61 +802,61 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
                 if(path.get(i) == Entrance1)
                     WordInPath.add("เดินตรงไป 5 เมตร");
                 else if(path.get(i) == Ladder1)
-                    WordInPath.add("เดินตรงไป 1.4 เมตร");
+                    WordInPath.add("เดินตรงไป 1 เมตร");
                 else if(path.get(i) == Toilet1Man)
                     WordInPath.add("เดินตรงไป 1 เมตร");
                 else if(path.get(i) == Toilet1Woman)
-                    WordInPath.add("เดินตรงไป 1.625 เมตร");
+                    WordInPath.add("เดินตรงไป 2 เมตร");
                 else if(path.get(i) == Library)
-                    WordInPath.add("เดินตรงไป 1.4 เมตร");
+                    WordInPath.add("เดินตรงไป 1 เมตร");
                 else if(path.get(i) == DSSRoom)
-                    WordInPath.add("เดินตรงไป 1.4 เมตร");
+                    WordInPath.add("เดินตรงไป 1 เมตร");
                 else if(path.get(i) == ATRoom)
-                    WordInPath.add("เดินตรงไป 3.75 เมตร");
+                    WordInPath.add("เดินตรงไป 4 เมตร");
                 else if (path.get(i) == Room102)
                     WordInPath.add("เดินตรงไป 4 เมตร");
                 else if(path.get(i) == Entrance2)
-                    WordInPath.add("เดินตรงไป 2.6 เมตร");
+                    WordInPath.add("เดินตรงไป 3 เมตร");
                 else if(path.get(i) == PublicRelation)
-                    WordInPath.add("เดินตรงไป 3.75 เมตร");
+                    WordInPath.add("เดินตรงไป 4 เมตร");
                 else if(path.get(i) == Ladder2)
-                    WordInPath.add("เดินตรงไป 2.4 เมตร");
+                    WordInPath.add("เดินตรงไป 2 เมตร");
                 else if(path.get(i) == Lift)
-                    WordInPath.add("เดินตรงไป 4.5 เมตร");
+                    WordInPath.add("เดินตรงไป 5 เมตร");
                 else if(path.get(i) == Room104)
                     WordInPath.add("เดินตรงไป 4 เมตร");
                 else if(path.get(i) == Room105)
-                    WordInPath.add("เดินตรงไป 2.7 เมตร");
+                    WordInPath.add("เดินตรงไป 3 เมตร");
                 else if(path.get(i) == KKRoom)
-                    WordInPath.add("เดินตรงไป 4.15 เมตร");
+                    WordInPath.add("เดินตรงไป 4 เมตร");
                 else if(path.get(i) == Room107)
-                    WordInPath.add("เดินตรงไป 2.7 เมตร");
+                    WordInPath.add("เดินตรงไป 3 เมตร");
                 else if(path.get(i) == Room108)
-                    WordInPath.add("เดินตรงไป 2.7 เมตร");
+                    WordInPath.add("เดินตรงไป 3 เมตร");
                 else if(path.get(i) == Room110)
-                    WordInPath.add("เดินตรงไป 2.7 เมตร");
+                    WordInPath.add("เดินตรงไป 3 เมตร");
                 else if(path.get(i) == CopyStore)
-                    WordInPath.add("เดินตรงไป 0.5 เมตร");
+                    WordInPath.add("เดินตรงไป 1 เมตร");
                 else if(path.get(i) == Ladder3)
-                    WordInPath.add("เดินตรงไป 2.7 เมตร");
+                    WordInPath.add("เดินตรงไป 3 เมตร");
                 else if(path.get(i) == Toilet2Man)
                     WordInPath.add("เดินตรงไป 2 เมตร");
                 else if(path.get(i) == Toilet2Woman)
                     WordInPath.add("เดินตรงไป 2 เมตร");
                 else if(path.get(i) == Room115)
-                    WordInPath.add("เดินตรงไป 1.4 เมตร");
+                    WordInPath.add("เดินตรงไป 1 เมตร");
                 else if(path.get(i) == Room116)
-                    WordInPath.add("เดินตรงไป 1.4 เมตร");
+                    WordInPath.add("เดินตรงไป 1 เมตร");
                 else if(path.get(i) == Room118)
-                    WordInPath.add("เดินตรงไป 6.7 เมตร");
+                    WordInPath.add("เดินตรงไป 3 เมตร");
             }else{
 
                 if( i!=path.size()-1){
                     if(path.get(i+1) == Ladder1){//ตัวมันเองเป็น node 2 ไปหา Ladder1
                         if(path.get(i-1) == Entrance1){
-                            WordInPath.add("หมุนซ้ายและเดินตรงไป 1.4 เมตร");
+                            WordInPath.add("หมุนซ้ายและเดินตรงไป 1 เมตร");
                         }if(path.get(i-1) == Node3){
-                            WordInPath.add("หมุนขวาและเดินตรงไป 1.4 เมตร");
+                            WordInPath.add("หมุนขวาและเดินตรงไป 1 เมตร");
                         }
                     }
                     if(path.get(i+1) == Entrance1){//ตัวมันเองเป็น node2 ไปหา Entrance1
@@ -868,17 +868,17 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
                     }
                     if(path.get(i+1) == Node3){//ตัวมันเองเป็น node2 ไปหา node3
                         if(path.get(i-1) == Ladder1){
-                            WordInPath.add("หมุนซ้ายและเดินตรงไป 1.625 เมตร");
+                            WordInPath.add("หมุนซ้ายและเดินตรงไป 2 เมตร");
                         }if(path.get(i-1) == Entrance1){
-                            WordInPath.add("เดินตรงไป 1.625 เมตร");
+                            WordInPath.add("เดินตรงไป 2 เมตร");
                         }
                     }
 
                     if(path.get(i+1) == Node2){//node3 to node2
                         if(path.get(i-1) == Node4){
-                            WordInPath.add("หมุนซ้ายและเดินตรงไป 1.625 เมตร");
+                            WordInPath.add("หมุนซ้ายและเดินตรงไป 2 เมตร");
                         }if(path.get(i-1) == Node5){
-                            WordInPath.add("เดินตรงไป 1.625 เมตร");
+                            WordInPath.add("เดินตรงไป 2 เมตร");
                         }
                     }
                     if(path.get(i+1) == Node4){//node3 to node4
@@ -890,31 +890,31 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
                     }
                     if(path.get(i+1) == Node5){//node3 to node 5
                         if(path.get(i-1) == Node4){
-                            WordInPath.add("หมุนซ้ายและเดินตรงไป 2.25 เมตร");
+                            WordInPath.add("หมุนซ้ายและเดินตรงไป 2 เมตร");
                         }
                         if(path.get(i-1) == Node2){
-                            WordInPath.add("เดินตรงไป 2.25 เมตร");
+                            WordInPath.add("เดินตรงไป 2 เมตร");
                         }
                     }
 
                     if(path.get(i+1) == Node3){//node5 to node 3
                         if(path.get(i-1) == Library){
-                            WordInPath.add("หมุนซ้ายและเดินตรงไป 2.25 เมตร");
+                            WordInPath.add("หมุนซ้ายและเดินตรงไป 2 เมตร");
                         }
                         if(path.get(i-1) == Node6){
-                            WordInPath.add("เดินตรงไป 2.25 เมตร");
+                            WordInPath.add("เดินตรงไป 2 เมตร");
                         }
                     }
                     if(path.get(i+1) == Library){//node5 to library
                         if(path.get(i-1) == Node6){
-                            WordInPath.add("หมุนซ้ายและเดินตรงไป 1.4 เมตร");
+                            WordInPath.add("หมุนซ้ายและเดินตรงไป 1 เมตร");
                         }if(path.get(i-1) == Node3){
-                            WordInPath.add("หมุนขวาและเดินตรงไป 1.4 เมตร");
+                            WordInPath.add("หมุนขวาและเดินตรงไป 1 เมตร");
                         }
                     }
                     if(path.get(i+1) == Node6){//node5 to node6
                         if(path.get(i-1) == Library){
-                            WordInPath.add("หมุนขวาและเดินตรงไป 77 เมตร");
+                            WordInPath.add("หมุนขวาและเดินตรงไป 7 เมตร");
                         }
                         if(path.get(i-1) == Node3){
                             WordInPath.add("เดินตรงไป 7 เมตร");
@@ -931,9 +931,9 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
                     }
                     if(path.get(i+1) == Node3){//node6 to DSSRoom
                         if(path.get(i-1) == Node5){
-                            WordInPath.add("หมุนซ้ายและเดินตรงไป 1.4 เมตร");
+                            WordInPath.add("หมุนซ้ายและเดินตรงไป 1 เมตร");
                         }if(path.get(i-1) == Node8){
-                            WordInPath.add("หมุนขวาและเดินตรงไป 1.4 เมตร");
+                            WordInPath.add("หมุนขวาและเดินตรงไป 1 เมตร");
                         }
                     }
                     if(path.get(i+1) == Node8){//node6 to node 8
@@ -947,10 +947,10 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
 
                     if(path.get(i+1) == Toilet1Man){//node4 to toilet1man
                         if(path.get(i-1) == Toilet1Woman){
-                            WordInPath.add("หมุนซ้ายและเดินตรงไป 1.5 เมตร");
+                            WordInPath.add("หมุนซ้ายและเดินตรงไป 2 เมตร");
                         }
                         if(path.get(i-1) == Node3){
-                            WordInPath.add("เดินตรงไป 1.5 เมตร");
+                            WordInPath.add("เดินตรงไป 2 เมตร");
                         }
                     }
                     if(path.get(i+1) == Toilet1Woman){//node4 to toilet1woman
@@ -979,165 +979,165 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
                     }
                     if(path.get(i+1) == Node155){//node8 to node155
                         if(path.get(i-1) == Node9){
-                            WordInPath.add("หมุนซ้ายและเดินตรงไป 9.1 เมตร");
+                            WordInPath.add("หมุนซ้ายและเดินตรงไป 9 เมตร");
                         }if(path.get(i-1) == Node6){
-                            WordInPath.add("หมุนขวาและเดินตรงไป 9.1 เมตร");
+                            WordInPath.add("หมุนขวาและเดินตรงไป 9 เมตร");
                         }
                     }
                     if(path.get(i+1) == Node9){//node8 to node9
                         if(path.get(i-1) == Node155){
-                            WordInPath.add("หมุนขวาและเดินตรงไป 2.75 เมตร");
+                            WordInPath.add("หมุนขวาและเดินตรงไป 3 เมตร");
                         }
                         if(path.get(i-1) == Node6){
-                            WordInPath.add("เดินตรงไป 2.75 เมตร");
+                            WordInPath.add("เดินตรงไป 3 เมตร");
                         }
                     }
 
                     if(path.get(i+1) == Node8){//node9 to node8
                         if(path.get(i-1) == Node11){
-                            WordInPath.add("หมุนขวาและเดินตรงไป 2.75 เมตร");
+                            WordInPath.add("หมุนขวาและเดินตรงไป 3 เมตร");
                         }
                         if(path.get(i-1) == Node10){
-                            WordInPath.add("เดินตรงไป 2.75 เมตร");
+                            WordInPath.add("เดินตรงไป 3 เมตร");
                         }
                     }
                     if(path.get(i+1) == Node10){//node9 to node10
                         if(path.get(i-1) == Node11){
-                            WordInPath.add("หมุนซ้ายและเดินตรงไป 1.35 เมตร");
+                            WordInPath.add("หมุนซ้ายและเดินตรงไป 1 เมตร");
                         }
                         if(path.get(i-1) == Node8){
-                            WordInPath.add("เดินตรงไป 1.35 เมตร");
+                            WordInPath.add("เดินตรงไป 1 เมตร");
                         }
                     }
                     if(path.get(i+1) == Node11){//node9 to node 11
                         if(path.get(i-1) == Node8){
-                            WordInPath.add("หมุนซ้ายและเดินตรงไป 5.5 เมตร");
+                            WordInPath.add("หมุนซ้ายและเดินตรงไป 6 เมตร");
                         }if(path.get(i-1) == Node10){
-                            WordInPath.add("หมุนขวาและเดินตรงไป 5.5 เมตร");
+                            WordInPath.add("หมุนขวาและเดินตรงไป 6 เมตร");
                         }
                     }
 
                     if(path.get(i+1) == Node9){//node10 to node9
                         if(path.get(i-1) == Node14){
-                            WordInPath.add("หมุนซ้ายและเดินตรงไป 1.35 เมตร");
+                            WordInPath.add("หมุนซ้ายและเดินตรงไป 1 เมตร");
                         }
                     }
                     if(path.get(i+1) == Node14){//node10 to node14
                         if(path.get(i-1) == Node9){
-                            WordInPath.add("หมุนขวาและเดินตรงไป 2.4 เมตร");
+                            WordInPath.add("หมุนขวาและเดินตรงไป 2 เมตร");
                         }
                     }
 
                     if(path.get(i+1) == Node10){//node14 to node10
                         if(path.get(i-1) == Ladder2){
-                            WordInPath.add("หมุนขวาและเดินตรงไป 2.4 เมตร");
+                            WordInPath.add("หมุนขวาและเดินตรงไป 2 เมตร");
                         }
                         if(path.get(i-1) == Lift){
-                            WordInPath.add("เดินตรงไป 2.4 เมตร");
+                            WordInPath.add("เดินตรงไป 2 เมตร");
                         }
                     }
                     if(path.get(i+1) == Lift){//node14 to lift
                         if(path.get(i-1) == Ladder2){
-                            WordInPath.add("หมุนซ้ายและเดินตรงไป 4.5 เมตร");
+                            WordInPath.add("หมุนซ้ายและเดินตรงไป 5 เมตร");
                         }
                         if(path.get(i-1) == Node10){
-                            WordInPath.add("เดินตรงไป 4.5 เมตร");
+                            WordInPath.add("เดินตรงไป 5 เมตร");
                         }
                     }
                     if(path.get(i+1) == Ladder2){//node14 to ladder2
                         if(path.get(i-1) == Node10){
-                            WordInPath.add("หมุนซ้ายและเดินตรงไป 2.4 เมตร");
+                            WordInPath.add("หมุนซ้ายและเดินตรงไป 2 เมตร");
                         }if(path.get(i-1) == Lift){
-                            WordInPath.add("หมุนขวาและเดินตรงไป 2.4 เมตร");
+                            WordInPath.add("หมุนขวาและเดินตรงไป 2 เมตร");
                         }
                     }
 
                     if(path.get(i+1) == Node9){//node11 to node9
                         if(path.get(i-1) == Room102){
-                            WordInPath.add("หมุนซ้ายและเดินตรงไป 5.5 เมตร");
+                            WordInPath.add("หมุนซ้ายและเดินตรงไป 6 เมตร");
                         }
                         if(path.get(i-1) == Node12){
-                            WordInPath.add("เดินตรงไป 5.5 เมตร");
+                            WordInPath.add("เดินตรงไป 6 เมตร");
                         }
                     }
                     if(path.get(i+1) == Room102){//node11 to room102
                         if(path.get(i-1) == Node12){
-                            WordInPath.add("หมุนซ้ายและเดินตรงไป 3.75 เมตร");
+                            WordInPath.add("หมุนซ้ายและเดินตรงไป 4 เมตร");
                         }if(path.get(i-1) == Node9){
-                            WordInPath.add("หมุนขวาและเดินตรงไป 3.75 เมตร");
+                            WordInPath.add("หมุนขวาและเดินตรงไป 4 เมตร");
                         }
                     }
                     if(path.get(i+1) == Node12){//node11 to node12
                         if(path.get(i-1) == Room102){
-                            WordInPath.add("หมุนขวาและเดินตรงไป 3.2 เมตร");
+                            WordInPath.add("หมุนขวาและเดินตรงไป 3 เมตร");
                         }
                         if(path.get(i-1) == Node9){
-                            WordInPath.add("เดินตรงไป 3.2 เมตร");
+                            WordInPath.add("เดินตรงไป 3 เมตร");
                         }
                     }
 
                     if(path.get(i+1) == Node11){//node12 to node11
                         if(path.get(i-1) == ATRoom){
-                            WordInPath.add("หมุนขวาและเดินตรงไป 3.2 เมตร");
+                            WordInPath.add("หมุนขวาและเดินตรงไป 3 เมตร");
                         }
                         if(path.get(i-1) == Node13){
-                            WordInPath.add("เดินตรงไป 3.2 เมตร");
+                            WordInPath.add("เดินตรงไป 3 เมตร");
                         }
                     }
                     if(path.get(i+1) == ATRoom){//node12 to ATRoom
                         if(path.get(i-1) == Node11){
-                            WordInPath.add("หมุนซ้ายและเดินตรงไป 3.75 เมตร");
+                            WordInPath.add("หมุนซ้ายและเดินตรงไป 4 เมตร");
                         }if(path.get(i-1) == Node13){
-                            WordInPath.add("หมุนขวาและเดินตรงไป 3.75 เมตร");
+                            WordInPath.add("หมุนขวาและเดินตรงไป 4 เมตร");
                         }
                     }
                     if(path.get(i+1) == Node13){//node12 to node13
                         if(path.get(i-1) == ATRoom){
-                            WordInPath.add("หมุนซ้ายและเดินตรงไป 3.5 เมตร");
+                            WordInPath.add("หมุนซ้ายและเดินตรงไป 4 เมตร");
                         }
                         if(path.get(i-1) == Node11){
-                            WordInPath.add("เดินตรงไป 3.5 เมตร");
+                            WordInPath.add("เดินตรงไป 4 เมตร");
                         }
                     }
 
                     if(path.get(i+1) == Node12){//node13 to node12
                         if(path.get(i-1) == PublicRelation){
-                            WordInPath.add("หมุนซ้ายและเดินตรงไป 3.5 เมตร");
+                            WordInPath.add("หมุนซ้ายและเดินตรงไป 4 เมตร");
                         }
                         if(path.get(i-1) == Entrance2){
-                            WordInPath.add("เดินตรงไป 3.5 เมตร");
+                            WordInPath.add("เดินตรงไป 4 เมตร");
                         }
                     }
                     if(path.get(i+1) == PublicRelation){//node13 to publicrelation
                         if(path.get(i-1) == Entrance2){
-                            WordInPath.add("หมุนซ้ายและเดินตรงไป 3.75 เมตร");
+                            WordInPath.add("หมุนซ้ายและเดินตรงไป 4 เมตร");
                         }if(path.get(i-1) == Node12){
-                            WordInPath.add("หมุนขวาและเดินตรงไป 3.75 เมตร");
+                            WordInPath.add("หมุนขวาและเดินตรงไป 4 เมตร");
                         }
                     }
                     if(path.get(i+1) == Entrance2){//node13 to Entrance2
                         if(path.get(i-1) == PublicRelation){
-                            WordInPath.add("หมุนขวาและเดินตรงไป 2.6 เมตร");
+                            WordInPath.add("หมุนขวาและเดินตรงไป 3 เมตร");
                         }
                         if(path.get(i-1) == Node12){
-                            WordInPath.add("เดินตรงไป 2.6 เมตร");
+                            WordInPath.add("เดินตรงไป 3 เมตร");
                         }
                     }
 
                     if(path.get(i+1) == Node8){//node155 to node8
                         if(path.get(i-1) == Room104){
-                            WordInPath.add("หมุนขวาและเดินตรงไป 9.1 เมตร");
+                            WordInPath.add("หมุนขวาและเดินตรงไป 9 เมตร");
                         }
                         if(path.get(i-1) == Node15){
-                            WordInPath.add("เดินตรงไป 9.1 เมตร");
+                            WordInPath.add("เดินตรงไป 9 เมตร");
                         }
                     }
                     if(path.get(i+1) == Node15){//node155 to node15
                         if(path.get(i-1) == Room104){
-                            WordInPath.add("หมุนซ้ายและเดินตรงไป 5.4 เมตร");
+                            WordInPath.add("หมุนซ้ายและเดินตรงไป 5 เมตร");
                         }
                         if(path.get(i-1) == Node8){
-                            WordInPath.add("เดินตรงไป 5.4 เมตร");
+                            WordInPath.add("เดินตรงไป 5 เมตร");
                         }
                     }
                     if(path.get(i+1) == Room104){//node155 to room104
@@ -1150,17 +1150,17 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
 
                     if(path.get(i+1) == Node155){//node15 to node155
                         if(path.get(i-1) == Room105){
-                            WordInPath.add("หมุนขวาและเดินตรงไป 5.4 เมตร");
+                            WordInPath.add("หมุนขวาและเดินตรงไป 5 เมตร");
                         }
                         if(path.get(i-1) == Node16){
-                            WordInPath.add("เดินตรงไป 5.4 เมตร");
+                            WordInPath.add("เดินตรงไป 5 เมตร");
                         }
                     }
                     if(path.get(i+1) == Room105){//node15 to room105
                         if(path.get(i-1) == Node155){
-                            WordInPath.add("หมุนซ้ายและเดินตรงไป 2.7 เมตร");
+                            WordInPath.add("หมุนซ้ายและเดินตรงไป 3 เมตร");
                         }if(path.get(i-1) == Node16){
-                            WordInPath.add("หมุนขวาและเดินตรงไป 2.7 เมตร");
+                            WordInPath.add("หมุนขวาและเดินตรงไป 3 เมตร");
                         }
                     }
                     if(path.get(i+1) == Node16){//node15 to node16
@@ -1182,17 +1182,17 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
                     }
                     if(path.get(i+1) == KKRoom){//node16 to kkroom
                         if(path.get(i-1) == Node15){
-                            WordInPath.add("หมุนซ้ายและเดินตรงไป 8.3 เมตร");
+                            WordInPath.add("หมุนซ้ายและเดินตรงไป 8 เมตร");
                         }if(path.get(i-1) == Node18){
-                            WordInPath.add("หมุนขวาและเดินตรงไป 8.3 เมตร");
+                            WordInPath.add("หมุนขวาและเดินตรงไป 8 เมตร");
                         }
                     }
                     if(path.get(i+1) == Node18){//node16 to node18
                         if(path.get(i-1) == KKRoom){
-                            WordInPath.add("หมุนซ้ายและเดินตรงไป 5.8 เมตร");
+                            WordInPath.add("หมุนซ้ายและเดินตรงไป 6 เมตร");
                         }
                         if(path.get(i-1) == Node15){
-                            WordInPath.add("เดินตรงไป 5.8 เมตร");
+                            WordInPath.add("เดินตรงไป 6 เมตร");
                         }
                     }
 
@@ -1209,113 +1209,113 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
 
                     if(path.get(i+1) == Node16){//node18 to node16
                         if(path.get(i-1) == Room107){
-                            WordInPath.add("หมุนขวาและเดินตรงไป 5.8 เมตร");
+                            WordInPath.add("หมุนขวาและเดินตรงไป 6 เมตร");
                         }
                         if(path.get(i-1) == Node19){
-                            WordInPath.add("เดินตรงไป 5.8 เมตร");
+                            WordInPath.add("เดินตรงไป 6 เมตร");
                         }
                     }
                     if(path.get(i+1) == Room107){//node18 to room107
                         if(path.get(i-1) == Node16){
-                            WordInPath.add("หมุนซ้ายและเดินตรงไป 2.7 เมตร");
+                            WordInPath.add("หมุนซ้ายและเดินตรงไป 3 เมตร");
                         }if(path.get(i-1) == Node19){
-                            WordInPath.add("หมุนขวาและเดินตรงไป 2.7 เมตร");
+                            WordInPath.add("หมุนขวาและเดินตรงไป 3 เมตร");
                         }
                     }
                     if(path.get(i+1) == Node19){//node18 to node19
                         if(path.get(i-1) == Room107){
-                            WordInPath.add("หมุนซ้ายและเดินตรงไป 7.8 เมตร");
+                            WordInPath.add("หมุนซ้ายและเดินตรงไป 8 เมตร");
                         }
                         if(path.get(i-1) == Node16){
-                            WordInPath.add("เดินตรงไป 7.8 เมตร");
+                            WordInPath.add("เดินตรงไป 8 เมตร");
                         }
                     }
 
                     if(path.get(i+1) == Node18){//node19 to node18
                         if(path.get(i-1) == Room108){
-                            WordInPath.add("หมุนขวาและเดินตรงไป 7.8 เมตร");
+                            WordInPath.add("หมุนขวาและเดินตรงไป 8 เมตร");
                         }
                         if(path.get(i-1) == Node20){
-                            WordInPath.add("เดินตรงไป 7.8 เมตร");
+                            WordInPath.add("เดินตรงไป 8 เมตร");
                         }
                     }
                     if(path.get(i+1) == Room108){//node19 to Room108
                         if(path.get(i-1) == Node18){
-                            WordInPath.add("หมุนซ้ายและเดินตรงไป 2.7 เมตร");
+                            WordInPath.add("หมุนซ้ายและเดินตรงไป 3 เมตร");
                         }if(path.get(i-1) == Node20){
-                            WordInPath.add("หมุนขวาและเดินตรงไป 2.7 เมตร");
+                            WordInPath.add("หมุนขวาและเดินตรงไป 3 เมตร");
                         }
                     }
                     if(path.get(i+1) == Node20){//node19 to node20
                         if(path.get(i-1) == Room108){
-                            WordInPath.add("หมุนซ้ายและเดินตรงไป 1.7 เมตร");
+                            WordInPath.add("หมุนซ้ายและเดินตรงไป 2 เมตร");
                         }
                         if(path.get(i-1) == Node18){
-                            WordInPath.add("เดินตรงไป 1.7 เมตร");
+                            WordInPath.add("เดินตรงไป 2 เมตร");
                         }
                     }
 
                     if(path.get(i+1) == Node20){//node20 to node19
                         if(path.get(i-1) == Room110){
-                            WordInPath.add("หมุนขวาและเดินตรงไป 1.7 เมตร");
+                            WordInPath.add("หมุนขวาและเดินตรงไป 2 เมตร");
                         }
                         if(path.get(i-1) == Node205){
-                            WordInPath.add("เดินตรงไป 1.7 เมตร");
+                            WordInPath.add("เดินตรงไป 2 เมตร");
                         }
                     }
                     if(path.get(i+1) == Room110){//node20 to Room110
                         if(path.get(i-1) == Node19){
-                            WordInPath.add("หมุนซ้ายและเดินตรงไป 2.7 เมตร");
+                            WordInPath.add("หมุนซ้ายและเดินตรงไป 3 เมตร");
                         }if(path.get(i-1) == Node205){
-                            WordInPath.add("หมุนขวาและเดินตรงไป 2.7 เมตร");
+                            WordInPath.add("หมุนขวาและเดินตรงไป 3 เมตร");
                         }
                     }
                     if(path.get(i+1) == Node205){//node20 to node205
                         if(path.get(i-1) == Room110){
-                            WordInPath.add("หมุนซ้ายและเดินตรงไป 0.8 เมตร");
+                            WordInPath.add("หมุนซ้ายและเดินตรงไป 1 เมตร");
                         }
                         if(path.get(i-1) == Node23){
-                            WordInPath.add("เดินตรงไป 0.8 เมตร");
+                            WordInPath.add("เดินตรงไป 1 เมตร");
                         }
                     }
 
                     if(path.get(i+1) == Node20){//node205 to node20
                         if(path.get(i-1) == Node21){
-                            WordInPath.add("หมุนซ้ายและเดินตรงไป 0.8 เมตร");
+                            WordInPath.add("หมุนซ้ายและเดินตรงไป 1 เมตร");
                         }
                         if(path.get(i-1) == Node23){
-                            WordInPath.add("เดินตรงไป 0.8 เมตร");
+                            WordInPath.add("เดินตรงไป 1 เมตร");
                         }
                     }
                     if(path.get(i+1) == Node21){//node205 to node21
                         if(path.get(i-1) == Node23){
-                            WordInPath.add("หมุนซ้ายและเดินตรงไป 8.2 เมตร");
+                            WordInPath.add("หมุนซ้ายและเดินตรงไป 8 เมตร");
                         }if(path.get(i-1) == Node20){
-                            WordInPath.add("หมุนขวาและเดินตรงไป 8.2 เมตร");
+                            WordInPath.add("หมุนขวาและเดินตรงไป 8 เมตร");
                         }
                     }
                     if(path.get(i+1) == Node23){//node205 to node23
                         if(path.get(i-1) == Node21){
-                            WordInPath.add("หมุนขวาและเดินตรงไป 7.5 เมตร");
+                            WordInPath.add("หมุนขวาและเดินตรงไป 8 เมตร");
                         }
                         if(path.get(i-1) == Node20){
-                            WordInPath.add("เดินตรงไป 7.5 เมตร");
+                            WordInPath.add("เดินตรงไป 8 เมตร");
                         }
                     }
 
                     if(path.get(i+1) == Node205){//node21 to node205
                         if(path.get(i-1) == Room115){
-                            WordInPath.add("หมุนขวาและเดินตรงไป 8.2 เมตร");
+                            WordInPath.add("หมุนขวาและเดินตรงไป 8 เมตร");
                         }
                         if(path.get(i-1) == Node22){
-                            WordInPath.add("เดินตรงไป 8.2 เมตร");
+                            WordInPath.add("เดินตรงไป 8 เมตร");
                         }
                     }
                     if(path.get(i+1) == Room115){//node21 to Room115
                         if(path.get(i-1) == Node205){
-                            WordInPath.add("หมุนซ้ายและเดินตรงไป 1.4 เมตร");
+                            WordInPath.add("หมุนซ้ายและเดินตรงไป 1 เมตร");
                         }if(path.get(i-1) == Node22){
-                            WordInPath.add("หมุนขวาและเดินตรงไป 1.4 เมตร");
+                            WordInPath.add("หมุนขวาและเดินตรงไป 1 เมตร");
                         }
                     }
                     if(path.get(i+1) == Node22){//node21 to node22
@@ -1337,26 +1337,26 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
                     }
                     if(path.get(i+1) == Room116){//node22 to Room116
                         if(path.get(i-1) == Node21){
-                            WordInPath.add("หมุนซ้ายและเดินตรงไป 1.4 เมตร");
+                            WordInPath.add("หมุนซ้ายและเดินตรงไป 1 เมตร");
                         }if(path.get(i-1) == Room118){
-                            WordInPath.add("หมุนขวาและเดินตรงไป 1.4 เมตร");
+                            WordInPath.add("หมุนขวาและเดินตรงไป 1 เมตร");
                         }
                     }
                     if(path.get(i+1) == Room118){//node22 to Room118
                         if(path.get(i-1) == Room116){
-                            WordInPath.add("หมุนซ้ายและเดินตรงไป 6.7 เมตร");
+                            WordInPath.add("หมุนซ้ายและเดินตรงไป 7 เมตร");
                         }
                         if(path.get(i-1) == Node21){
-                            WordInPath.add("เดินตรงไป 6.7 เมตร");
+                            WordInPath.add("เดินตรงไป 7 เมตร");
                         }
                     }
 
                     if(path.get(i+1) == Node205){//node23 to node205
                         if(path.get(i-1) == Node25){
-                            WordInPath.add("หมุนขวาและเดินตรงไป 7.5 เมตร");
+                            WordInPath.add("หมุนขวาและเดินตรงไป 8 เมตร");
                         }
                         if(path.get(i-1) == Node24){
-                            WordInPath.add("เดินตรงไป 7.5 เมตร");
+                            WordInPath.add("เดินตรงไป 8 เมตร");
                         }
                     }
                     if(path.get(i+1) == Node25){//node23 to node25
@@ -1368,34 +1368,34 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
                     }
                     if(path.get(i+1) == Node24){//node23 to node24
                         if(path.get(i-1) == Node25){
-                            WordInPath.add("หมุนซ้ายและเดินตรงไป 1.75 เมตร");
+                            WordInPath.add("หมุนซ้ายและเดินตรงไป 2 เมตร");
                         }
                         if(path.get(i-1) == Node205){
-                            WordInPath.add("เดินตรงไป 1.75 เมตร");
+                            WordInPath.add("เดินตรงไป 2 เมตร");
                         }
                     }
 
                     if(path.get(i+1) == Node23){//node24 to node23
                         if(path.get(i-1) == Ladder3){
-                            WordInPath.add("หมุนขวาและเดินตรงไป 1.75 เมตร");
+                            WordInPath.add("หมุนขวาและเดินตรงไป 2 เมตร");
                         }
                         if(path.get(i-1) == CopyStore){
-                            WordInPath.add("เดินตรงไป 1.75 เมตร");
+                            WordInPath.add("เดินตรงไป 2 เมตร");
                         }
                     }
                     if(path.get(i+1) == CopyStore){//node24 to copystore
                         if(path.get(i-1) == Ladder3){
-                            WordInPath.add("หมุนซ้ายและเดินตรงไป 0.5 เมตร");
+                            WordInPath.add("หมุนซ้ายและเดินตรงไป 1 เมตร");
                         }
                         if(path.get(i-1) == Node23){
-                            WordInPath.add("เดินตรงไป 0.5 เมตร");
+                            WordInPath.add("เดินตรงไป 1 เมตร");
                         }
                     }
                     if(path.get(i+1) == Ladder3){//node24 to ladder3
                         if(path.get(i-1) == Node23){
-                            WordInPath.add("หมุนซ้ายและเดินตรงไป 2.7 เมตร");
+                            WordInPath.add("หมุนซ้ายและเดินตรงไป 3 เมตร");
                         }if(path.get(i-1) == CopyStore){
-                            WordInPath.add("หมุนขวาและเดินตรงไป 2.7 เมตร");
+                            WordInPath.add("หมุนขวาและเดินตรงไป 3 เมตร");
                         }
                     }
 
