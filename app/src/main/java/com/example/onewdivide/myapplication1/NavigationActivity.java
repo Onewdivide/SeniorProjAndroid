@@ -813,6 +813,8 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
                     WordInPath.add("เดินตรงไป 1.4 เมตร");
                 else if(path.get(i) == ATRoom)
                     WordInPath.add("เดินตรงไป 3.75 เมตร");
+                else if (path.get(i) == Room102)
+                    WordInPath.add("");
                 else if(path.get(i) == Entrance2)
                     WordInPath.add("เดินตรงไป 2.6 เมตร");
                 else if(path.get(i) == PublicRelation)
