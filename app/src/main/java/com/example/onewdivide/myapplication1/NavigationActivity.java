@@ -419,7 +419,7 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
         Node3.inputAreaLocation(229,70,260,78);
         Node4.inputAreaLocation(260,70,273,78);
         Node5.inputAreaLocation(229,80,238,85);
-        Node6.inputAreaLocation(229,85,238,158);
+        Node6.inputAreaLocation(229,100,238,105);
         Node8.inputAreaLocation(229,158,238,165);
         Node9.inputAreaLocation(229,165,249,176);
         Node10.inputAreaLocation(226,176,238,183);
@@ -814,7 +814,7 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
                 else if(path.get(i) == ATRoom)
                     WordInPath.add("เดินตรงไป 3.75 เมตร");
                 else if (path.get(i) == Room102)
-                    WordInPath.add("");
+                    WordInPath.add("เดินตรงไป 4 เมตร");
                 else if(path.get(i) == Entrance2)
                     WordInPath.add("เดินตรงไป 2.6 เมตร");
                 else if(path.get(i) == PublicRelation)
