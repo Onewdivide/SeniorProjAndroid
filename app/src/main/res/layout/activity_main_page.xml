@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:orientation="vertical" xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout android:orientation="vertical" xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/testtest"
@@ -8,106 +8,35 @@
     tools:context="com.example.onewdivide.myapplication1.MainPage">
 
 
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="383dp"
+        android:layout_height="93dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:text="โปรดเลือกโหมดจากปุ่มด้านล่างนี้"
+        app:layout_constraintBottom_toTopOf="@+id/toMapPage"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.653"
+        tools:layout_editor_absoluteX="0dp" />
+
     <Button
         android:id="@+id/toMapPage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="to Map page" />
+        android:layout_marginBottom="36dp"
+        android:text="โหมดแผนที่"
+        app:layout_constraintBottom_toTopOf="@+id/toNavigationPage"
+        tools:layout_editor_absoluteX="16dp" />
 
     <Button
         android:id="@+id/toNavigationPage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="to Navigation Page" />
+        android:layout_marginBottom="148dp"
+        android:text="โหมดนำทาง"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="0dp" />
 
-    <Button
-        android:id="@+id/testLocation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="testLocation" />
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="X" />
-
-    <TextView
-        android:id="@+id/CurrentX"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
-
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Y" />
-
-    <TextView
-        android:id="@+id/CurrentY"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
-
-    <TextView
-        android:id="@+id/textView11"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="ServerTime" />
-
-    <TextView
-        android:id="@+id/ServerTime"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
-
-    <TextView
-        android:id="@+id/textView13"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="FirstLocateTime" />
-
-    <TextView
-        android:id="@+id/FirstLocateTime"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
-
-    <TextView
-        android:id="@+id/textviewEiei"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="LastLocateTime" />
-
-    <TextView
-        android:id="@+id/LastLocateTime"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
-
-    <TextView
-        android:id="@+id/textView17"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="RequestTimeStamp" />
-
-    <TextView
-        android:id="@+id/RewuestTimeStamp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
-
-    <TextView
-        android:id="@+id/textView19"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="SuccessTimeStamp" />
-
-    <TextView
-        android:id="@+id/SuccessTimeStamp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
-
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

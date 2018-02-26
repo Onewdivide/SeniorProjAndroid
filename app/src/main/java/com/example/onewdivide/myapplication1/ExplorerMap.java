@@ -3,13 +3,17 @@ package com.example.onewdivide.myapplication1;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Handler;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.Toolbar;
+
 import java.util.Locale;
 
 public class ExplorerMap extends AppCompatActivity implements TextToSpeech.OnInitListener {
@@ -43,12 +47,19 @@ public class ExplorerMap extends AppCompatActivity implements TextToSpeech.OnIni
     Button r2;
     Button En2;
     Button Mroom;
+    Button backBtn;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+
         test123 = (RelativeLayout) findViewById(R.id.activity_main);
         tts = new TextToSpeech(this, this);
         tts.setLanguage(new Locale("th"));
@@ -520,6 +531,20 @@ public class ExplorerMap extends AppCompatActivity implements TextToSpeech.OnIni
 
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        if (id == android.R.id.home){
+            Intent it = new Intent(this, MainPage.class);
+            startActivity(it);
+            finish();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void onInit(int status) {
         if (status == TextToSpeech.SUCCESS) {
             //do somethings here
@@ -531,4 +556,5 @@ public class ExplorerMap extends AppCompatActivity implements TextToSpeech.OnIni
         super.onDestroy();
         tts.shutdown();
     }
+
 }

@@ -18,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -202,6 +203,9 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
 
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         Button btnSubmit = (Button) findViewById(R.id.btn_submit);
 //        final TextView currentLocation = (TextView) findViewById(R.id.textView5);
 //        final TextView currentPath = (TextView) findViewById(R.id.textView7);
@@ -212,26 +216,26 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
         btnSubmit.setOnClickListener(this);
 
         //Add VirtualCurrentLocation
-//        VirtualCurrentLocationOnX.add(230);
-//        VirtualCurrentLocationOnY.add(83);
+        VirtualCurrentLocationOnX.add(250);
+        VirtualCurrentLocationOnY.add(180);
 //
-//        VirtualCurrentLocationOnX.add(232);
-//        VirtualCurrentLocationOnY.add(82);
+        VirtualCurrentLocationOnX.add(250);
+        VirtualCurrentLocationOnY.add(177);
 //
-//        VirtualCurrentLocationOnX.add(234);
-//        VirtualCurrentLocationOnY.add(82);
+        VirtualCurrentLocationOnX.add(250);
+        VirtualCurrentLocationOnY.add(170);
 //
-//        VirtualCurrentLocationOnX.add(234);
-//        VirtualCurrentLocationOnY.add(78);
-//
-//        VirtualCurrentLocationOnX.add(234);
-//        VirtualCurrentLocationOnY.add(75);
-//
-//        VirtualCurrentLocationOnX.add(234);
-//        VirtualCurrentLocationOnY.add(72);
-//
-//        VirtualCurrentLocationOnX.add(234);
-//        VirtualCurrentLocationOnY.add(70);
+        VirtualCurrentLocationOnX.add(257);
+        VirtualCurrentLocationOnY.add(170);
+
+        VirtualCurrentLocationOnX.add(260);
+        VirtualCurrentLocationOnY.add(170);
+
+        VirtualCurrentLocationOnX.add(260);
+        VirtualCurrentLocationOnY.add(167);
+
+        VirtualCurrentLocationOnX.add(260);
+        VirtualCurrentLocationOnY.add(160);
 //
 //        VirtualCurrentLocationOnX.add(234);
 //        VirtualCurrentLocationOnY.add(67);
@@ -1610,6 +1614,15 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
 //        });
 }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        Intent it = new Intent(this, MainPage.class);
+        startActivity(it);
+        finish();
+
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public void onInit(int status) {

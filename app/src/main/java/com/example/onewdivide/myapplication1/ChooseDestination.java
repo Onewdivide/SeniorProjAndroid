@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -39,6 +40,9 @@ public class ChooseDestination extends AppCompatActivity implements WheelPicker.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_destination);
+
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Allplace.add("ทางเข้าหนึ่ง");
         Allplace.add("บันไดหนึ่ง");
@@ -102,6 +106,16 @@ public class ChooseDestination extends AppCompatActivity implements WheelPicker.
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        Intent it = new Intent(this, MainPage.class);
+        startActivity(it);
+        finish();
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void onItemSelected(WheelPicker picker, Object data, int position) {
 
         MyTTS.getInstance(ChooseDestination.this)
@@ -120,111 +134,12 @@ public class ChooseDestination extends AppCompatActivity implements WheelPicker.
 
     @Override
     public void onClick(View v) {
-//        Intent it = new Intent(getApplicationContext(),NavigationActivity.class);
-//        it.putExtra("Destination",allPlace2Send.get(thatPosition));
-//        startActivity(it);
-//        finish();
-
-        new FeedJSONTask().execute("");
+        Intent it = new Intent(getApplicationContext(),NavigationActivity.class);
+        it.putExtra("Destination",allPlace2Send.get(thatPosition));
+        startActivity(it);
+        finish();
 
     }
 
-    public class FeedJSONTask extends AsyncTask<String, Void, String[]> {
-
-        @Override
-        protected String[] doInBackground(String... strings) {
-            String result = FeedJSON();
-            Gson gson = new Gson();
-//            Type collectionType = new TypeToken<Collection<CMXResponse>>() {}.getType();
-//            Collection<CMXResponse> enums = gson.fromJson(result, collectionType);
-//            CMXResponse[] CMXresult = enums.toArray(new CMXResponse[enums.size()]);
-
-            CurrentLocationResponse[] currentLocationResponse = gson.fromJson(result, CurrentLocationResponse[].class);
-//            String[] currentResponseLast = {currentLocationResponse.getMapCoordinate().getX()};
-//            String test = result.get()
-            double locateX = 0;
-            double locateY = 0;
-            String currentServerTime = "";
-            String firstLocateTime = "";
-            String lastLocateTime = "";
-            locateX = currentLocationResponse[0].getMapCoordinate().getX();
-            locateY = currentLocationResponse[0].getMapCoordinate().getY();
-            currentServerTime = currentLocationResponse[0].getStatistics().getCurrentServerTime();
-            firstLocateTime = currentLocationResponse[0].getStatistics().getFirstLocatedTime();
-            lastLocateTime = currentLocationResponse[0].getStatistics().getLastLocatedTime();
-//            double CoXX = ((372*locateX)/345)+4;
-//            double CoYY= ((268*locateY)/243)+124;
-            int CoX = (int)locateX;
-            int CoY = (int)locateY;
-            String[] res = {Integer.toString(CoX),Integer.toString(CoY),currentServerTime,firstLocateTime,lastLocateTime};
-
-
-            return res;
-        }
-
-        @Override
-        protected void onPostExecute(String[] s) {
-
-            super.onPostExecute(s);
-//            TextView CurrentX = (TextView) findViewById(R.id.CurrentX);
-//            TextView CurrentY = (TextView) findViewById(R.id.CurrentY);
-//            TextView ServerTime = (TextView) findViewById(R.id.ServerTime);
-//            TextView FirstLocatedTime = (TextView) findViewById(R.id.FirstLocateTime);
-//            TextView LastLocatedTime = (TextView) findViewById(R.id.LastLocateTime);
-//            TextView SuccessTimeStamp = (TextView) findViewById(R.id.SuccessTimeStamp);
-
-//            CurrentX.setText(s[0]);
-//            CurrentY.setText(s[1]);
-//            ServerTime.setText(s[2]);
-//            FirstLocatedTime.setText(s[3]);
-//            LastLocatedTime.setText(s[4]);
-//            Timestamp timestamplast = new Timestamp(System.currentTimeMillis());
-//            SuccessTimeStamp.setText(String.valueOf(timestamplast.getTime()));
-
-            Intent it = new Intent(getApplicationContext(),NavigationActivity.class);
-            it.putExtra("startX",s[0]);
-            it.putExtra("startY",s[1]);
-            it.putExtra("Destination",allPlace2Send.get(thatPosition));
-            startActivity(it);
-            finish();
-
-
-        }
-    }
-
-    private String FeedJSON(){
-
-        try {
-
-            HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-            logging.setLevel(HttpLoggingInterceptor.Level.HEADERS);
-
-            OkHttpClient client = SelfSigningClientBuilder.createClient()
-                    .authenticator(new Authenticator() {
-                        @Nullable
-                        @Override
-                        public Request authenticate(Route route, Response response) throws IOException {
-                            String credential = Credentials.basic("dev", "dev12345");
-                            return response.request().newBuilder().header("Authorization", credential).build();
-                        }
-                    }).addInterceptor(logging).build();
-//            https://10.34.250.12/api/location/v1/history/clients/78%3A4f%3A43%3A8a%3Adb%3Aab?date=2017%2F09%2F19
-//            https://10.34.250.12/api/location/v2/clients?macAddress=0a:4f:83:17:19:7b
-            Request request = new Request.Builder().url("https://10.34.250.12/api/location/v2/clients?macAddress=60:83:34:6D:11:8D")
-                    .build();
-
-            try {
-                Response response = client.newCall(request).execute();
-                String result = response.body().string();
-                return result;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-        }catch (Exception e){
-
-        }
-        return null;
-    }
 
 }
