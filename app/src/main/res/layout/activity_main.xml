@@ -8,6 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@drawable/navbg"
     tools:context="com.example.onewdivide.myapplication1.ExplorerMap">
 
     <Button
@@ -28,8 +29,7 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/textView2"
         android:layout_marginTop="62dp"
-        android:text="meeting room"
-        />
+        android:text="ห้องหนึ่งหนึ่งแปด" />
 
     <Button
         android:id="@+id/Longway2"
@@ -38,7 +38,7 @@
         android:layout_below="@+id/Longway1"
         android:layout_toLeftOf="@+id/library"
         android:layout_toStartOf="@+id/library"
-        android:text="Longway2" />
+        android:text="ห้องโถง" />
 
     <Button
         android:id="@+id/Longway4"
@@ -47,7 +47,7 @@
         android:layout_below="@+id/library"
         android:layout_toLeftOf="@+id/Ladder1"
         android:layout_toStartOf="@+id/Ladder1"
-        android:text="Longway4" />
+        android:text="ห้องโถง" />
 
     <TextView
         android:id="@+id/textView"
@@ -58,26 +58,17 @@
         android:layout_alignParentTop="true"
         android:text="โหมดแผนที่" />
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:text="Swipe top for description" />
-
     <Button
         android:id="@+id/Entrance1"
         android:layout_width="50dp"
         android:layout_height="70dp"
         android:layout_above="@+id/Longway4"
         android:layout_alignEnd="@+id/Longway4"
-        android:layout_alignRight="@+id/Longway4"
-        android:layout_alignTop="@+id/library"
-        android:text="Entrance1"
         android:layout_alignLeft="@+id/Longway4"
-        android:layout_alignStart="@+id/Longway4" />
+        android:layout_alignRight="@+id/Longway4"
+        android:layout_alignStart="@+id/Longway4"
+        android:layout_alignTop="@+id/library"
+        android:text="ทางเข้า" />
 
     <Button
         android:id="@+id/Ladder1"
@@ -86,29 +77,29 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/Entrance1"
-        android:text="Ladder1" />
+        android:text="บันได" />
 
     <Button
         android:id="@+id/room8"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:layout_alignEnd="@+id/button5"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/Longway1"
-        android:text="room8"
         android:layout_alignRight="@+id/button5"
-        android:layout_alignEnd="@+id/button5" />
+        android:layout_below="@+id/Longway1"
+        android:text="ห้องหนึ่งหนึ่งหก" />
 
     <Button
         android:id="@+id/button5"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:layout_alignEnd="@+id/llongways"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/room8"
-        android:text="room7"
         android:layout_alignRight="@+id/llongways"
-        android:layout_alignEnd="@+id/llongways" />
+        android:layout_below="@+id/room8"
+        android:text="ห้องหนึ่งหนึ่งห้า" />
 
     <Button
         android:id="@+id/button6"
@@ -117,7 +108,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/Ladder1"
-        android:text="Button" />
+        android:text="ห้องน้ำ" />
 
     <Button
         android:id="@+id/button7"
@@ -126,7 +117,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/button6"
-        android:text="kroom" />
+        android:text="ห้องกิจจะกานและห้องเอที" />
 
     <Button
         android:id="@+id/field"
@@ -135,7 +126,7 @@
         android:layout_below="@+id/library"
         android:layout_toEndOf="@+id/Longway2"
         android:layout_toRightOf="@+id/Longway2"
-        android:text="field" />
+        android:text="สนาม" />
 
     <Button
         android:id="@+id/button9"
@@ -145,7 +136,7 @@
         android:layout_below="@+id/field"
         android:layout_toEndOf="@+id/Longway2"
         android:layout_toRightOf="@+id/Longway2"
-        android:text="ladder2" />
+        android:text="บันได" />
 
     <Button
         android:id="@+id/longways"
@@ -155,7 +146,7 @@
         android:layout_above="@+id/room5"
         android:layout_toEndOf="@+id/Longway2"
         android:layout_toRightOf="@+id/Longway2"
-        android:text="longways" />
+        android:text="ห้องโถง" />
 
     <Button
         android:id="@+id/llongways"
@@ -164,7 +155,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/button5"
-        android:text="llongways" />
+        android:text="ห้องโถง" />
 
     <Button
         android:id="@+id/ladder3"
@@ -173,7 +164,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/llongways"
-        android:text="ladder3" />
+        android:text="บันได" />
 
     <Button
         android:id="@+id/llongways2"
@@ -183,7 +174,7 @@
         android:layout_alignBottom="@+id/ladder3"
         android:layout_alignEnd="@+id/llongways"
         android:layout_alignRight="@+id/llongways"
-        android:text="llongways2" />
+        android:text="ห้องโถง" />
 
     <Button
         android:id="@+id/room6"
@@ -192,7 +183,7 @@
         android:layout_below="@+id/Longway2"
         android:layout_toEndOf="@+id/llongways2"
         android:layout_toRightOf="@+id/llongways2"
-        android:text="room6" />
+        android:text="ห้องหนึ่งหนึ่งศูนย์" />
 
     <Button
         android:id="@+id/room5"
@@ -202,7 +193,7 @@
         android:layout_alignBottom="@+id/room4"
         android:layout_toEndOf="@+id/room6"
         android:layout_toRightOf="@+id/room6"
-        android:text="room5" />
+        android:text="ห้องหนึ่งศูนย์แปด" />
 
     <Button
         android:id="@+id/room4"
@@ -211,7 +202,7 @@
         android:layout_below="@+id/Longway4"
         android:layout_toEndOf="@+id/room5"
         android:layout_toRightOf="@+id/room5"
-        android:text="room4" />
+        android:text="ห้องหนึ่งศูนย์เจ็ด" />
 
     <Button
         android:id="@+id/llongways3"
@@ -220,7 +211,7 @@
         android:layout_below="@+id/Longway4"
         android:layout_toEndOf="@+id/room4"
         android:layout_toRightOf="@+id/room4"
-        android:text="llongways3" />
+        android:text="ทางเดินเล็ก" />
 
     <Button
         android:id="@+id/room3"
@@ -229,7 +220,7 @@
         android:layout_below="@+id/Longway4"
         android:layout_toEndOf="@+id/llongways3"
         android:layout_toRightOf="@+id/llongways3"
-        android:text="room3" />
+        android:text="ห้องหนึ่งศูนย์ห้า" />
 
     <Button
         android:id="@+id/toilet"
@@ -238,7 +229,7 @@
         android:layout_below="@+id/llongways3"
         android:layout_toEndOf="@+id/room4"
         android:layout_toRightOf="@+id/room4"
-        android:text="toilet" />
+        android:text="ห้องกิจการนักศึกษา" />
 
     <Button
         android:id="@+id/llongways4"
@@ -247,7 +238,7 @@
         android:layout_below="@+id/Longway4"
         android:layout_toEndOf="@+id/room3"
         android:layout_toRightOf="@+id/room3"
-        android:text="llongways4" />
+        android:text="ทางเดิน" />
 
     <Button
         android:id="@+id/ladder4"
@@ -256,7 +247,7 @@
         android:layout_below="@+id/llongways4"
         android:layout_toEndOf="@+id/room3"
         android:layout_toRightOf="@+id/room3"
-        android:text="ladder4" />
+        android:text="บันได" />
 
     <Button
         android:id="@+id/entrance2"
@@ -265,7 +256,7 @@
         android:layout_below="@+id/Longway4"
         android:layout_toEndOf="@+id/textView"
         android:layout_toRightOf="@+id/textView"
-        android:text="entrance2" />
+        android:text="ทางเข้า" />
 
     <Button
         android:id="@+id/room1"
@@ -274,7 +265,7 @@
         android:layout_below="@+id/room3"
         android:layout_toEndOf="@+id/toilet"
         android:layout_toRightOf="@+id/toilet"
-        android:text="room2" />
+        android:text="ลิป" />
 
     <Button
         android:id="@+id/room2"
@@ -283,7 +274,7 @@
         android:layout_below="@+id/entrance2"
         android:layout_toEndOf="@+id/room1"
         android:layout_toRightOf="@+id/room1"
-        android:text="room2" />
+        android:text="ห้องหนึ่งศูนย์สอง" />
 
     <Button
         android:id="@+id/Mroom"
@@ -292,6 +283,6 @@
         android:layout_below="@+id/entrance2"
         android:layout_toEndOf="@+id/room2"
         android:layout_toRightOf="@+id/room2"
-        android:text="Mroom" />
+        android:text="ประชาสัมพัน" />
 
 </RelativeLayout>

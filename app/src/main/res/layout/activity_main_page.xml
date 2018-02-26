@@ -5,6 +5,7 @@
     android:id="@+id/testtest"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/navbg"
     tools:context="com.example.onewdivide.myapplication1.MainPage">
 
 
