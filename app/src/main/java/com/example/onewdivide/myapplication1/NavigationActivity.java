@@ -76,7 +76,7 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
     public String distance;
     public TextView currentLocation;
     public TextView currentPath;
-    public TextView xyLocation;
+    public TextView onTopWord;
     public List<Vertex> path;
     public int loopcount = 1;
     public int tempcheck = 0;
@@ -119,7 +119,7 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
                     // on this condition fix it to < xMax, < yMax and > xMin, > yMin
                     //if possible fix this condition to use imInThisAreaRight function
                     loopcount +=1 ;
-                    currentLocation.setText("On point!");
+
 //                    currentPath.setText(WordInPath.get(checkArriveThisNodeYet));
                     Log.e("OnPoint!", "");
 
@@ -170,7 +170,7 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
 //                        wordDistance = "ถึงจุดหมายเรียบร้อยแล้ว";
 //                    }
 
-                    currentLocation.setText("Continue...");
+
                     currentPath.setText(wordDistance);
 //                    Log.e("Continue...", wordDistance);
                     Log.e("Debug >>" ,"This is checkArriveThisNodeYet : "+checkArriveThisNodeYet
@@ -201,7 +201,6 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
         Button btnSubmit = (Button) findViewById(R.id.btn_submit);
 //        final TextView currentLocation = (TextView) findViewById(R.id.textView5);
 //        final TextView currentPath = (TextView) findViewById(R.id.textView7);
-        currentLocation = (TextView) findViewById(R.id.textView5);
         currentPath = (TextView) findViewById(R.id.textView7);
         btnSubmit.setOnClickListener(this);
 
@@ -626,8 +625,9 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
 //                currentLocation.setText(startLocation.toString());
 //            }
 //        },1500);
-        currentLocation.setText(startLocation.toString());
-        MyTTS.getInstance(NavigationActivity.this).speak("ตอนนี้คุณอยู่ที่"+currentLocation.getText().toString());
+
+
+
 //        System.out.println("Your Current Location is : "+ NumWithPlace.get(checkInEachXandY));
 
         //Put in all path
@@ -686,6 +686,9 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
         final Vertex current = startLocation;
         Vertex destination;
         String destinationz = getIntent().getStringExtra("Destination");
+        onTopWord = (TextView) findViewById(R.id.CL);
+        onTopWord.setText("จาก"+ startLocation.toString()+"ไป"+destinationz+"กดเริ่มนำทางเพื่อนำทาง");
+        MyTTS.getInstance(NavigationActivity.this).speak("จาก"+ startLocation.toString()+"ไป"+destinationz+"กดเริ่มนำทางเพื่อนำทาง");
         Log.e("pass from last activity", destinationz);
         if (destinationz.equals("Entrance1")){
             destination = Entrance1;

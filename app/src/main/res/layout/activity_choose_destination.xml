@@ -16,6 +16,7 @@
         android:layout_marginTop="20dp"
         android:text="โปรดเลือกจุดหมายของท่าน"
         android:textAlignment="center"
+        android:textColor="@android:color/background_light"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
@@ -56,6 +57,7 @@
         android:layout_marginTop="24dp"
         android:text="โหมดนำทาง"
         android:textAlignment="center"
+        android:textColor="@android:color/background_light"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
