@@ -76,7 +76,7 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
     public String distance;
     public TextView currentLocation;
     public TextView currentPath;
-    public TextView xyLocation,OnTheWayTest;
+    public TextView xyLocation;
     public List<Vertex> path;
     public int loopcount = 1;
     public int tempcheck = 0;
@@ -143,7 +143,6 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
                     handler.postDelayed(runnable,4000L);
                 }
                 else{
-                    OnTheWayTest.setText(path.get(checkArriveThisNodeYet).toString());
                     int x = currentRecall[0] - path.get(checkArriveThisNodeYet).location[0];
                     int y = currentRecall[1] - path.get(checkArriveThisNodeYet).location[1];
                     loopcount +=1  ;
@@ -204,7 +203,6 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
 //        final TextView currentPath = (TextView) findViewById(R.id.textView7);
         currentLocation = (TextView) findViewById(R.id.textView5);
         currentPath = (TextView) findViewById(R.id.textView7);
-        OnTheWayTest = (TextView) findViewById(R.id.OnTheWayTest);
         btnSubmit.setOnClickListener(this);
 
         //Add VirtualCurrentLocation
