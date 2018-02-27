@@ -16,6 +16,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
         android:text="โปรดเลือกโหมดจากปุ่มด้านล่างนี้"
+        android:textAlignment="center"
         app:layout_constraintBottom_toTopOf="@+id/toMapPage"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.653"
