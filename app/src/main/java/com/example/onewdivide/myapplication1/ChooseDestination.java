@@ -35,6 +35,7 @@ public class ChooseDestination extends AppCompatActivity implements WheelPicker.
     public int thatPosition = 0;
     public Button next;
     private WheelPicker mainwheel;
+    public String startX,startY;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +44,12 @@ public class ChooseDestination extends AppCompatActivity implements WheelPicker.
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        Bundle extras = getIntent().getExtras();
+        startX = extras.getString("startX1");
+        startY = extras.getString("startY1");
+
+        MyTTS.getInstance(ChooseDestination.this).speak("กรุณาเเลือกจุดหมายปลายทางปลายทาง");
 
         Allplace.add("ทางเข้าหนึ่ง");
         Allplace.add("บันไดหนึ่ง");
@@ -135,6 +142,8 @@ public class ChooseDestination extends AppCompatActivity implements WheelPicker.
     @Override
     public void onClick(View v) {
         Intent it = new Intent(getApplicationContext(),NavigationActivity.class);
+        it.putExtra("startX",startX);
+        it.putExtra("startY",startY);
         it.putExtra("Destination",allPlace2Send.get(thatPosition));
         startActivity(it);
         finish();

@@ -61,7 +61,7 @@ public class MainPage extends AppCompatActivity{
 
         toNavigationPage.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent it = new Intent(getApplicationContext(), ChooseDestination.class);
+                Intent it = new Intent(getApplicationContext(), selectStartLocationActivity.class);
                 startActivity(it);
                 finish();
             }

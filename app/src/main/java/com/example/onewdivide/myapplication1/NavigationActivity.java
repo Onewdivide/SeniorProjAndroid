@@ -18,7 +18,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -76,7 +75,7 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
     public String distance;
     public TextView currentLocation;
     public TextView currentPath;
-    public TextView onTopWord;
+    public TextView xyLocation,OnTheWayTest;
     public List<Vertex> path;
     public int loopcount = 1;
     public int tempcheck = 0;
@@ -94,14 +93,21 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
             if (checkOnDestinationYet == 0 ){
 
 
-
-                int[] currentRecall;
-                currentRecall = new int[] {VirtualCurrentLocationOnX.get(loopcount), VirtualCurrentLocationOnY.get(loopcount)};
-
+//                new FeedJSONTaskCurrentLocation().execute("");
+//                int[] currentRecall;
+//                if (inLoopFirstTime){
+//                    currentRecall = new int[]{parseInt(getIntent().getStringExtra("startX")),
+//                            parseInt(getIntent().getStringExtra("startY"))};
+//                    inLoopFirstTime = false;
+//                }
+//                else{
+//                    currentRecall = new int[]{APIcallCurrentlocationX, APIcallCurrentLocationY};
+//                }
+                xyLocation.setText(APIcallCurrentlocationX+","+APIcallCurrentLocationY);
 //                for (int test = 0; test<WordInPath.size();test++){
 //                    Log.e("wordInPath",WordInPath.get(test));
 //                }
-//                int[] currentRecall = {VirtualCurrentLocationOnX.get(loopcount),VirtualCurrentLocationOnY.get(loopcount)};
+                int[] currentRecall = {VirtualCurrentLocationOnX.get(loopcount),VirtualCurrentLocationOnY.get(loopcount)};
 //                Log.e("Show Case","Show VirtualX : "+VirtualCurrentLocationOnX.get(loopcount).toString()
 //                        + "Show VirtualY : "+VirtualCurrentLocationOnY.get(loopcount).toString());
 //                Log.e("Current Recall : ", String.valueOf(currentRecall[0]+" , "+ currentRecall[1]));
@@ -119,7 +125,7 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
                     // on this condition fix it to < xMax, < yMax and > xMin, > yMin
                     //if possible fix this condition to use imInThisAreaRight function
                     loopcount +=1 ;
-
+                    currentLocation.setText("On point!");
 //                    currentPath.setText(WordInPath.get(checkArriveThisNodeYet));
                     Log.e("OnPoint!", "");
 
@@ -129,7 +135,7 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
                     if (checkArriveThisNodeYet < WordInPath.size()){
                         currentPath.setText(WordInPath.get(checkArriveThisNodeYet));
 
-                            checkArriveThisNodeYet+=1;
+                        checkArriveThisNodeYet+=1;
 
                     }
                     else{
@@ -143,6 +149,10 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
                     handler.postDelayed(runnable,4000L);
                 }
                 else{
+
+
+
+                    OnTheWayTest.setText(path.get(checkArriveThisNodeYet).toString());
                     int x = currentRecall[0] - path.get(checkArriveThisNodeYet).location[0];
                     int y = currentRecall[1] - path.get(checkArriveThisNodeYet).location[1];
                     loopcount +=1  ;
@@ -170,9 +180,27 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
 //                        wordDistance = "ถึงจุดหมายเรียบร้อยแล้ว";
 //                    }
 
-
-                    currentPath.setText(wordDistance);
+                    currentLocation.setText("Continue...");
+//                    currentPath.setText(wordDistance);
 //                    Log.e("Continue...", wordDistance);
+
+                    if (checkArriveThisNodeYet<path.size()-1){
+                        if (!path.get(checkArriveThisNodeYet-1).imInThisAreaRight(currentRecall[0],currentRecall[1])
+                                && !path.get(checkArriveThisNodeYet).imInThisAreaRight(currentRecall[0],currentRecall[1])){
+                            currentPath.setText("กรุณาหยุดรอเพื่อคำนวณเส้นทางใหม่");
+                        }
+                        else
+                            currentPath.setText(wordDistance);
+                    }else{
+                        if (!path.get(checkArriveThisNodeYet-1).imInThisAreaRight(currentRecall[0],currentRecall[1])){
+                            currentPath.setText("กรุณาหยุดรอเพื่อคำนวณเส้นทางใหม่");
+                        }
+                        else
+                            currentPath.setText(wordDistance);
+                    }
+
+
+
                     Log.e("Debug >>" ,"This is checkArriveThisNodeYet : "+checkArriveThisNodeYet
                             +" and this is WordInpath.size : "+WordInPath.size() + "This is loopcount : "+loopcount);
                     MyTTS.getInstance(NavigationActivity.this).speak(currentPath.getText().toString());
@@ -195,46 +223,46 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
 
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         Button btnSubmit = (Button) findViewById(R.id.btn_submit);
 //        final TextView currentLocation = (TextView) findViewById(R.id.textView5);
 //        final TextView currentPath = (TextView) findViewById(R.id.textView7);
+//        currentLocation = (TextView) findViewById(R.id.textView5);
         currentPath = (TextView) findViewById(R.id.textView7);
+//        OnTheWayTest = (TextView) findViewById(R.id.OnTheWayTest);
+//        xyLocation = (TextView) findViewById(R.id.xyLocation);
         btnSubmit.setOnClickListener(this);
 
         //Add VirtualCurrentLocation
         VirtualCurrentLocationOnX.add(250);
         VirtualCurrentLocationOnY.add(180);
-//
+
         VirtualCurrentLocationOnX.add(250);
         VirtualCurrentLocationOnY.add(177);
 //
+        VirtualCurrentLocationOnX.add(0);
+        VirtualCurrentLocationOnY.add(0);
+
         VirtualCurrentLocationOnX.add(250);
         VirtualCurrentLocationOnY.add(170);
 //
         VirtualCurrentLocationOnX.add(257);
         VirtualCurrentLocationOnY.add(170);
 
+        VirtualCurrentLocationOnX.add(0);
+        VirtualCurrentLocationOnY.add(0);
+//
         VirtualCurrentLocationOnX.add(260);
         VirtualCurrentLocationOnY.add(170);
 
         VirtualCurrentLocationOnX.add(260);
         VirtualCurrentLocationOnY.add(167);
-
+//
+        VirtualCurrentLocationOnX.add(0);
+        VirtualCurrentLocationOnY.add(0);
+//
         VirtualCurrentLocationOnX.add(260);
         VirtualCurrentLocationOnY.add(160);
-//
-//        VirtualCurrentLocationOnX.add(234);
-//        VirtualCurrentLocationOnY.add(67);
-//
-//        VirtualCurrentLocationOnX.add(234);
-//        VirtualCurrentLocationOnY.add(63);
-//
-//        VirtualCurrentLocationOnX.add(234);
-//        VirtualCurrentLocationOnY.add(59);
-//
+
 //        VirtualCurrentLocationOnX.add(234);
 //        VirtualCurrentLocationOnY.add(57);
 //
@@ -554,11 +582,13 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
 
         int x ;
         int y ;
-
+//        Log.e("callcurrentAtStart:", getIntent().getStringExtra("startX"));
+//        Log.e("callcurrentAtStart:", getIntent().getStringExtra("startY"));
+//        xyLocation.setText(getIntent().getStringExtra("startX")+","+getIntent().getStringExtra("startY"));
         double Pithagorus;
         for(int i = 0 ; i<EachXandY.size(); i++){
-            x =  VirtualCurrentLocationOnX.get(0) - EachXandY.get(i)[0];
-            y =  VirtualCurrentLocationOnY.get(0) - EachXandY.get(i)[1];
+            x =  parseInt(getIntent().getStringExtra("startX")) - EachXandY.get(i)[0];
+            y =  parseInt(getIntent().getStringExtra("startY")) - EachXandY.get(i)[1];
             Pithagorus = sqrt(x*x+y*y);
             if(Pithagorus<checkLastPithagorus){
                 checkLastPithagorus = Pithagorus;
@@ -625,9 +655,8 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
 //                currentLocation.setText(startLocation.toString());
 //            }
 //        },1500);
-
-
-
+        currentLocation.setText(startLocation.toString());
+        MyTTS.getInstance(NavigationActivity.this).speak("ตอนนี้คุณอยู่ที่"+currentLocation.getText().toString());
 //        System.out.println("Your Current Location is : "+ NumWithPlace.get(checkInEachXandY));
 
         //Put in all path
@@ -686,9 +715,6 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
         final Vertex current = startLocation;
         Vertex destination;
         String destinationz = getIntent().getStringExtra("Destination");
-        onTopWord = (TextView) findViewById(R.id.CL);
-        onTopWord.setText("จาก"+ startLocation.toString()+"ไป"+destinationz+"กดเริ่มนำทางเพื่อนำทาง");
-        MyTTS.getInstance(NavigationActivity.this).speak("จาก"+ startLocation.toString()+"ไป"+destinationz+"กดเริ่มนำทางเพื่อนำทาง");
         Log.e("pass from last activity", destinationz);
         if (destinationz.equals("Entrance1")){
             destination = Entrance1;
@@ -1423,17 +1449,188 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
         }
 
 
-}
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+        Bitmap bmp = null;
 
-        Intent it = new Intent(this, MainPage.class);
-        startActivity(it);
-        finish();
 
-        return super.onOptionsItemSelected(item);
+//        imgView =(ImageView)findViewById(R.id.imageView);
+        String imageUrl = "10.34.250.12/api/config/v1/maps/imagesource/domain_0_1500368087062.jpg";
+//        URL url = new URL(imageUrl);
+//        HttpURLConnection connection = (HttpURLConnection)
+//        imgView.setImageBitmap(helper.getHTTPData(imageUrl));
+//        imgView.setImageBitmap(GetBitmapfromUrl("https://httpbin.org/image/png"));
+
+//        imgView.setTag("10.34.250.12/api/config/v1/maps/imagesource/domain_0_1500368087062.jpg");
+//        imgView.setTag("https://httpbin.org/image/png");
+//        imgView.setWebViewClient(new CustomWebViewClient());
+//        imgView.loadUrl(imageUrl);
+//        new DownloadImagesTask().execute(imgView);
+//        NetworkTask network = new NetworkTask();
+//        network.execute("");
+//
+//
+//        Bitmap bitMap = Bitmap.createBitmap(380 , 516, Bitmap.Config.ARGB_8888);  //creates bmp
+//        bitMap = bitMap.copy(bitMap.getConfig(), true);     //lets bmp to be mutable
+//        Canvas canvas = new Canvas(bitMap);                 //draw a canvas in defined bmp
+//
+//        Paint paint = new Paint();                          //define paint and paint color
+//        paint.setColor(Color.RED);
+//        paint.setStyle(Paint.Style.FILL_AND_STROKE);
+//        //paint.setStrokeWidth(0.5f);
+//        paint.setAntiAlias(true);                           //smooth edges
+
+//        new FeedJSONTask().execute();
+
+//        imgView2 = (ImageView) findViewById(R.id.imageView2);
+//        imgView2.bringToFront();
+//        imgView2.setImageBitmap(bitMap);
+//        TextView text1 = (TextView) findViewById(R.id.textView6);
+//        text1.setText(" MAC 60:83:34:6D:11:8D ");
+
+
+//        Log.d("Test Debug >>","test1111");
+        //changed set image resource to set image background resource
+//        imViewAndroid.setBackgroundResource(R.drawable.map);
+
+        //       true start(223,83) +20,+130 OK!!
+//       next (204,168) => (224,298) NOT OK!!
+//        at top left in mobile screen (4,124)
+//        at bottom right in mobile screen (376,392)
+//        mobile use (376-4,392-124) => (372,268)
+//        at top left in real map (0,0)
+//        at bottom right in real map (345,243)
+//        so we want (95,70) => calculate : CoX/372 = 95/345 so CoX = (372*95)/345 = 102.43
+//        CoY/268 = 70/243 so CoY = (268*70)/243 = 77.2
+//        and!! plus (4,124) in to CoX and CoY
+//        So real CoX = 102+4 = 106, CoY = 77+124 = 201
+
+
+        wantX = 188;
+        wantY = 125;
+//        CoX = ((372*wantX)/345)+4;
+//        CoY = ((268*wantY)/243)+124;
+//        canvas.drawCircle(CoX, CoY, 2, paint);
+//        //invalidate to update bitmap in imageview
+        imgView2.invalidate();
+
+
+//        tts = new TextToSpeech(this, this);
+//        tts.setLanguage(new Locale("th"));
+//        test123 = (LinearLayout)findViewById(R.id.testtest);
+//        test123.setOnTouchListener(new OnSwipe(this){
+//            public void onSwipeTop() {
+//                tts.speak("ปัดขวาเพื่อเข้าสู่หน้าหลัก",TextToSpeech.QUEUE_FLUSH,null);
+//            }
+//            public void onSwipeRight() {
+//                Intent it = new Intent(getApplicationContext(),MainPage.class);
+//                startActivity(it);
+//                finish();
+//            }
+//            public void onSwipeLeft() {
+//
+//            }
+//            public void onSwipeBottom() {
+//                tts.speak("หน้านี้คือหน้านำทาง 1.625", TextToSpeech.QUEUE_FLUSH,null);
+//            }
+//        });
+//
+
+
+//        tts = new TextToSpeech(this, this,"com.google.android.tts");
+//        tts.setLanguage(new Locale("th"));
+//        btnSubmit.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                // fake call for init
+//                MyTTS.getInstance(NavigationActivity.this)
+//                        .setEngine("com.google.android.tts")
+//                        .setLocale(new Locale("th")).speak("");
+//
+//                //
+//                final Handler handler = new Handler();
+//                handler.postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//
+//                        int SizeOfPath = path.size();
+//                        int checkArriveThisNodeYet = 0;
+//                        double distanceToThisNode;
+//                        String distance;
+//                        for (int i = 0 ; i<VirtualCurrentLocationOnX.size(); i++){
+//                            int[] currentRecall = {VirtualCurrentLocationOnX.get(i),VirtualCurrentLocationOnY.get(i)};
+//                            Log.e("Current Recall : ", String.valueOf(currentRecall[0]+" , "+ currentRecall[1]));
+//                            Log.e("checkArrive : ", String.valueOf(checkArriveThisNodeYet));
+//                            Log.e("Current Arrive Node : ",String.valueOf(path.get(checkArriveThisNodeYet).location[0]
+//                            +" , "+ path.get(checkArriveThisNodeYet).location[1]));
+//                            if (currentRecall[0] == path.get(checkArriveThisNodeYet).location[0]
+//                                    && currentRecall[1] == path.get(checkArriveThisNodeYet).location[1]){
+//
+//
+//                                    MyTTS.getInstance(NavigationActivity.this).speak(WordInPath.get(checkArriveThisNodeYet));
+//                                    currentLocation.setText(path.get(checkArriveThisNodeYet).toString());
+//                                    currentPath.setText(WordInPath.get(checkArriveThisNodeYet));
+//                                if (checkArriveThisNodeYet < WordInPath.size()-1){
+//                                    checkArriveThisNodeYet+=1;
+//                                }else{
+//
+//                                }
+//
+//
+//                            }else {
+//                                int x = currentRecall[0] - path.get(checkArriveThisNodeYet).location[0];
+//                                int y = currentRecall[1] - path.get(checkArriveThisNodeYet).location[1];
+//                                Log.e("Rx : " , String.valueOf(currentRecall[0]));
+//                                Log.e("Ry : " , String.valueOf(currentRecall[1]));
+//                                Log.e("Px : " , String.valueOf(path.get(checkArriveThisNodeYet).location[0]));
+//                                Log.e("Py : " , String.valueOf(path.get(checkArriveThisNodeYet).location[1]));
+//                                Log.e("X : " , String.valueOf(x));
+//                                Log.e("Y : " , String.valueOf(y));
+//                                distanceToThisNode = (sqrt(x*x+y*y));
+//                                Log.e("distance2thisBF : " , String.valueOf(distanceToThisNode));
+//                                distanceToThisNode = distanceToThisNode*(0.18);
+//                                Log.e("distance2thisAT : " , String.valueOf(distanceToThisNode));
+//                                distance = String.format("%.2f",distanceToThisNode);
+////                                int tt = parseInt(distance);
+//                                Log.e("this is distance : ",String.valueOf(distance));
+//                                String wordDistance = "เหลืออีก"+ distance + "เมตร ก่อนจะถึงจุดต่อไป";
+//                                if(i == VirtualCurrentLocationOnX.size()-1){
+//                                    wordDistance = "ถึงจุดหมายเรียบร้อยแล้ว";
+//                                }
+//                                MyTTS.getInstance(NavigationActivity.this).speak(wordDistance);
+//
+//                            }
+//                        }
+
+//                        for (int i =0 ; i<WordInPath.size();i++) {
+//                            Log.e("test", "onClick: " + WordInPath.get(i));
+//                            MyTTS.getInstance(NavigationActivity.this).speak(WordInPath.get(i));
+//                            currentLocation.setText(path.get(i+1).toString());
+//                            currentPath.setText(WordInPath.get(i));
+//
+//                        }
+
+//                    }
+//                }, 1000);
+//            }
+
+//            int SizeOfPath = path.size();
+//            int checkArriveThisNodeYet = 0;
+//            double distanceToThisNode;
+//        for (int i = 0 ; i<VirtualCurrentLocationOnX.size(); i++){
+//                int[] currentRecall = {VirtualCurrentLocationOnX.get(i),VirtualCurrentLocationOnY.get(i)};
+//                if (currentRecall == path.get(checkArriveThisNodeYet).location){
+//                    checkArriveThisNodeYet+=1;
+//                }else {
+//                    x = currentRecall[0] - path.get(checkArriveThisNodeYet).location[0];
+//                    y = currentRecall[1] - path.get(checkArriveThisNodeYet).location[1];
+//                    distanceToThisNode = (sqrt(x*x+y*y))*0.28;
+//
+//                }
+//            }
+
+//        });
     }
+
 
     @Override
     public void onInit(int status) {
