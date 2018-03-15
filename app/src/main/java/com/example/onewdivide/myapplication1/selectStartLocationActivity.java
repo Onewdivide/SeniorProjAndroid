@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -27,7 +28,10 @@ public class selectStartLocationActivity extends AppCompatActivity implements Vi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_start_location);
 
-        MyTTS.getInstance(selectStartLocationActivity.this).speak("กรุณาเเลือกจุดเริ่มต้นของเส้นทาง");
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        MyTTS.getInstance(selectStartLocationActivity.this).speak("กรุนาเลือกจุดเริ่มต้นของเส้นทาง");
 
         Allplace.add("ทางเข้าหนึ่ง");
         Allplace.add("บันไดหนึ่ง");
@@ -113,6 +117,16 @@ public class selectStartLocationActivity extends AppCompatActivity implements Vi
         next = (Button) findViewById(R.id.submitBtn);
         next.setOnClickListener(this);
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        Intent it = new Intent(this, MainPage.class);
+        startActivity(it);
+        finish();
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

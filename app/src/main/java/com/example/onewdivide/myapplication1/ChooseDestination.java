@@ -49,7 +49,7 @@ public class ChooseDestination extends AppCompatActivity implements WheelPicker.
         startX = extras.getString("startX1");
         startY = extras.getString("startY1");
 
-        MyTTS.getInstance(ChooseDestination.this).speak("กรุณาเเลือกจุดหมายปลายทางปลายทาง");
+        MyTTS.getInstance(ChooseDestination.this).speak("กรุนาเลือกจุดหมายปลายทางของท่าน");
 
         Allplace.add("ทางเข้าหนึ่ง");
         Allplace.add("บันไดหนึ่ง");

@@ -18,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -75,7 +76,7 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
     public String distance;
     public TextView currentLocation;
     public TextView currentPath;
-    public TextView xyLocation,OnTheWayTest;
+//    public TextView xyLocation,OnTheWayTest;
     public List<Vertex> path;
     public int loopcount = 1;
     public int tempcheck = 0;
@@ -103,7 +104,7 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
 //                else{
 //                    currentRecall = new int[]{APIcallCurrentlocationX, APIcallCurrentLocationY};
 //                }
-                xyLocation.setText(APIcallCurrentlocationX+","+APIcallCurrentLocationY);
+//                xyLocation.setText(APIcallCurrentlocationX+","+APIcallCurrentLocationY);
 //                for (int test = 0; test<WordInPath.size();test++){
 //                    Log.e("wordInPath",WordInPath.get(test));
 //                }
@@ -152,7 +153,7 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
 
 
 
-                    OnTheWayTest.setText(path.get(checkArriveThisNodeYet).toString());
+//                    OnTheWayTest.setText(path.get(checkArriveThisNodeYet).toString());
                     int x = currentRecall[0] - path.get(checkArriveThisNodeYet).location[0];
                     int y = currentRecall[1] - path.get(checkArriveThisNodeYet).location[1];
                     loopcount +=1  ;
@@ -173,7 +174,8 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
                     //dont forget to change to integer
 //                                int tt = parseInt(distance);
 //                    Log.e("this is distance : ",String.valueOf(distance));
-                    String wordDistance = "เหลืออีก"+ distance + "เมตร ก่อนจะถึงจุดต่อไป";
+//                    String wordDistance = "เหลืออีก"+ distance + "เมตร ก่อนจะถึงจุดต่อไป";
+                    String wordDistance = "เดินตรงต่อไป";
 
 //                    if(loopcount == VirtualCurrentLocationOnX.size()-1){
 //                        checkOnDestinationYet = 1;
@@ -223,10 +225,13 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
 
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         Button btnSubmit = (Button) findViewById(R.id.btn_submit);
 //        final TextView currentLocation = (TextView) findViewById(R.id.textView5);
 //        final TextView currentPath = (TextView) findViewById(R.id.textView7);
-//        currentLocation = (TextView) findViewById(R.id.textView5);
+        currentLocation = (TextView) findViewById(R.id.CL);
         currentPath = (TextView) findViewById(R.id.textView7);
 //        OnTheWayTest = (TextView) findViewById(R.id.OnTheWayTest);
 //        xyLocation = (TextView) findViewById(R.id.xyLocation);
@@ -655,8 +660,7 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
 //                currentLocation.setText(startLocation.toString());
 //            }
 //        },1500);
-        currentLocation.setText(startLocation.toString());
-        MyTTS.getInstance(NavigationActivity.this).speak("ตอนนี้คุณอยู่ที่"+currentLocation.getText().toString());
+
 //        System.out.println("Your Current Location is : "+ NumWithPlace.get(checkInEachXandY));
 
         //Put in all path
@@ -793,10 +797,14 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
         }
 
 
+        currentLocation.setText("ตอนนี้คุณอยู่ที่"+startLocation.toString());
+
+
         //Put Source
         computePaths(current); // run Dijkstra
         //Put Destination and calculate long
         System.out.println("Distance to " + destination + ": " + destination.minDistance);
+        MyTTS.getInstance(NavigationActivity.this).speak(currentLocation.getText().toString()+"และกำลังไปที่"+destinationz.toString()+"และมีระยะทาง"+destination.minDistance+"เมตร");
         //Calculate path
 //        final List<Vertex> path = getShortestPathTo(destination);
         path = getShortestPathTo(destination);
@@ -1465,13 +1473,13 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
 //        imgView.setWebViewClient(new CustomWebViewClient());
 //        imgView.loadUrl(imageUrl);
 //        new DownloadImagesTask().execute(imgView);
-//        NetworkTask network = new NetworkTask();
-//        network.execute("");
-//
-//
-//        Bitmap bitMap = Bitmap.createBitmap(380 , 516, Bitmap.Config.ARGB_8888);  //creates bmp
-//        bitMap = bitMap.copy(bitMap.getConfig(), true);     //lets bmp to be mutable
-//        Canvas canvas = new Canvas(bitMap);                 //draw a canvas in defined bmp
+        NetworkTask network = new NetworkTask();
+        network.execute("");
+
+
+        Bitmap bitMap = Bitmap.createBitmap(380 , 516, Bitmap.Config.ARGB_8888);  //creates bmp
+        bitMap = bitMap.copy(bitMap.getConfig(), true);     //lets bmp to be mutable
+        Canvas canvas = new Canvas(bitMap);                 //draw a canvas in defined bmp
 //
 //        Paint paint = new Paint();                          //define paint and paint color
 //        paint.setColor(Color.RED);
@@ -1481,14 +1489,14 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
 
 //        new FeedJSONTask().execute();
 
-//        imgView2 = (ImageView) findViewById(R.id.imageView2);
+//        imgView2 = (ImageView) findViewById(R.id.);
 //        imgView2.bringToFront();
 //        imgView2.setImageBitmap(bitMap);
 //        TextView text1 = (TextView) findViewById(R.id.textView6);
 //        text1.setText(" MAC 60:83:34:6D:11:8D ");
 
 
-//        Log.d("Test Debug >>","test1111");
+        Log.d("Test Debug >>","test1111");
         //changed set image resource to set image background resource
 //        imViewAndroid.setBackgroundResource(R.drawable.map);
 
@@ -1511,7 +1519,7 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
 //        CoY = ((268*wantY)/243)+124;
 //        canvas.drawCircle(CoX, CoY, 2, paint);
 //        //invalidate to update bitmap in imageview
-        imgView2.invalidate();
+//        imgView2.invalidate();
 
 
 //        tts = new TextToSpeech(this, this);
@@ -1787,6 +1795,16 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
                 imgView.setImageBitmap(bitmap);
             }
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        Intent it = new Intent(this, MainPage.class);
+        startActivity(it);
+        finish();
+
+        return super.onOptionsItemSelected(item);
     }
 
     public static void computePaths(Vertex source)
