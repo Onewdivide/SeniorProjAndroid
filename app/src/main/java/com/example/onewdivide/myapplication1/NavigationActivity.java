@@ -94,21 +94,21 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
             if (checkOnDestinationYet == 0 ){
 
 
-//                new FeedJSONTaskCurrentLocation().execute("");
-//                int[] currentRecall;
-//                if (inLoopFirstTime){
-//                    currentRecall = new int[]{parseInt(getIntent().getStringExtra("startX")),
-//                            parseInt(getIntent().getStringExtra("startY"))};
-//                    inLoopFirstTime = false;
-//                }
-//                else{
-//                    currentRecall = new int[]{APIcallCurrentlocationX, APIcallCurrentLocationY};
-//                }
+                new FeedJSONTaskCurrentLocation().execute("");
+                int[] currentRecall;
+                if (inLoopFirstTime){
+                    currentRecall = new int[]{parseInt(getIntent().getStringExtra("startX")),
+                            parseInt(getIntent().getStringExtra("startY"))};
+                    inLoopFirstTime = false;
+                }
+                else{
+                    currentRecall = new int[]{APIcallCurrentlocationX, APIcallCurrentLocationY};
+                }
 //                xyLocation.setText(APIcallCurrentlocationX+","+APIcallCurrentLocationY);
 //                for (int test = 0; test<WordInPath.size();test++){
 //                    Log.e("wordInPath",WordInPath.get(test));
 //                }
-                int[] currentRecall = {VirtualCurrentLocationOnX.get(loopcount),VirtualCurrentLocationOnY.get(loopcount)};
+//                int[] currentRecall = {VirtualCurrentLocationOnX.get(loopcount),VirtualCurrentLocationOnY.get(loopcount)};
 //                Log.e("Show Case","Show VirtualX : "+VirtualCurrentLocationOnX.get(loopcount).toString()
 //                        + "Show VirtualY : "+VirtualCurrentLocationOnY.get(loopcount).toString());
 //                Log.e("Current Recall : ", String.valueOf(currentRecall[0]+" , "+ currentRecall[1]));
