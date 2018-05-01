@@ -466,7 +466,7 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
         Node24.inputAreaLocation(86,157,89,167);
         Node25.inputAreaLocation(89,167,98,198);
 
-
+        //test re-install android studio
 
         //this is for CurrentLocation [0] is X, [1] is Y
         int[] Current = {234,52};
@@ -1473,8 +1473,8 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
 //        imgView.setWebViewClient(new CustomWebViewClient());
 //        imgView.loadUrl(imageUrl);
 //        new DownloadImagesTask().execute(imgView);
-        NetworkTask network = new NetworkTask();
-        network.execute("");
+//        NetworkTask network = new NetworkTask();
+//        network.execute("");
 
 
         Bitmap bitMap = Bitmap.createBitmap(380 , 516, Bitmap.Config.ARGB_8888);  //creates bmp
