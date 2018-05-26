@@ -5,45 +5,36 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
-import android.os.SystemClock;
 import android.speech.tts.TextToSpeech;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.format.Formatter;
 import android.util.Log;
-import android.view.GestureDetector;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.aigestudio.wheelpicker.WheelPicker;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Type;
-import java.sql.Timestamp;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.PriorityQueue;
+import java.util.regex.Pattern;
 
 import okhttp3.Authenticator;
 import okhttp3.Credentials;
@@ -59,27 +50,16 @@ import static java.lang.Thread.sleep;
 
 public class NavigationActivity extends AppCompatActivity implements TextToSpeech.OnInitListener, View.OnClickListener {
 
-    private GestureDetector gestureDetector;
-    private TextToSpeech tts;
-    private LinearLayout test123;
+    //URL for map's picture. Just in case of use.
     private String URL = "https://10.34.250.12/api/config/v1/maps/imagesource/domain_0_1500368087062.jpg";
-    private String LocationHistoryURL = "https://10.34.250.12/api/location/v1/history/clients/78%3A4f%3A43%3A8a%3Adb%3Aab?date=2017%2F09%2F19";
-    private ImageView imgView;
-    private ImageView imgView2;
-    private int CoX,CoY,wantX,wantY;
-    private int[] vrCurrent = {1,2};
-    private List<Integer> VirtualCurrentLocationOnX = new ArrayList<>();
-    private List<Integer> VirtualCurrentLocationOnY = new ArrayList<>();
-    public List<String> resultPath;
-    public int checkWord;
+
+
     final public Handler handler = new Handler();
     public String distance;
     public TextView currentLocation;
     public TextView currentPath;
-//    public TextView xyLocation,OnTheWayTest;
     public List<Vertex> path;
     public int loopcount = 1;
-    public int tempcheck = 0;
     public double distanceToThisNode;
     public int checkArriveThisNodeYet;
     public ArrayList<String> WordInPath = new ArrayList<>();
@@ -88,6 +68,7 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
     public Vertex startLocation;
     public boolean inLoopFirstTime = true;
 
+    //this is runable loop for call repeatly untill end of path
     private final Runnable runnable  = new Runnable() {
         @Override
         public void run() {
@@ -104,88 +85,59 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
                 else{
                     currentRecall = new int[]{APIcallCurrentlocationX, APIcallCurrentLocationY};
                 }
-//                xyLocation.setText(APIcallCurrentlocationX+","+APIcallCurrentLocationY);
-//                for (int test = 0; test<WordInPath.size();test++){
-//                    Log.e("wordInPath",WordInPath.get(test));
-//                }
-//                int[] currentRecall = {VirtualCurrentLocationOnX.get(loopcount),VirtualCurrentLocationOnY.get(loopcount)};
-//                Log.e("Show Case","Show VirtualX : "+VirtualCurrentLocationOnX.get(loopcount).toString()
-//                        + "Show VirtualY : "+VirtualCurrentLocationOnY.get(loopcount).toString());
-//                Log.e("Current Recall : ", String.valueOf(currentRecall[0]+" , "+ currentRecall[1]));
-//                Log.e("checkArrive : ", String.valueOf(checkArriveThisNodeYet));
-//                Log.e("Current Arrive Node : ",String.valueOf(path.get(checkArriveThisNodeYet).location[0]
-//                        +" , "+ path.get(checkArriveThisNodeYet).location[1]));
 
-
-//                Log.e("test",String.valueOf(checkNextLocation));
-//                Log.e("virtualPathTestX", String.valueOf(currentRecall[0]));
-//                Log.e("virtualPathTestY",String.valueOf(currentRecall[1]));
-//                if (currentRecall[0] == path.get(checkArriveThisNodeYet).location[0]
-//                        && currentRecall[1] == path.get(checkArriveThisNodeYet).location[1]){
+                // on this condition fix it to < xMax, < yMax and > xMin, > yMin
+                //check that user walk first step in node area that we consider
                 if (path.get(checkArriveThisNodeYet).imInThisAreaRight(currentRecall[0],currentRecall[1])){
-                    // on this condition fix it to < xMax, < yMax and > xMin, > yMin
+
                     //if possible fix this condition to use imInThisAreaRight function
                     loopcount +=1 ;
                     currentLocation.setText("On point!");
-//                    currentPath.setText(WordInPath.get(checkArriveThisNodeYet));
+
                     Log.e("OnPoint!", "");
 
                     Log.e("Debug >>" ,"This is checkArriveThisNodeYet : "+checkArriveThisNodeYet
                             +" and this is WordInpath.size : "+WordInPath.size() + "This is loopcount : "+loopcount);
 
+                    //Check that user did't arrive destination yet
                     if (checkArriveThisNodeYet < WordInPath.size()){
                         currentPath.setText(WordInPath.get(checkArriveThisNodeYet));
 
                         checkArriveThisNodeYet+=1;
 
                     }
+                    //if user arrive destination already then says "ถึงจุดหมายเรียบร้อยแล้ว"
                     else{
                         checkOnDestinationYet = 1;
                         currentPath.setText("ถึงจุดหมายเรียบร้อยแล้ว");
                     }
-//                    checkArriveThisNodeYet+=1;
+
 
                     MyTTS.getInstance(NavigationActivity.this).speak(currentPath.getText().toString());
 
                     handler.postDelayed(runnable,4000L);
                 }
+                //if user didn't walk first step in node or error of cisco cmx location service
                 else{
 
-
-
-//                    OnTheWayTest.setText(path.get(checkArriveThisNodeYet).toString());
                     int x = currentRecall[0] - path.get(checkArriveThisNodeYet).location[0];
                     int y = currentRecall[1] - path.get(checkArriveThisNodeYet).location[1];
                     loopcount +=1  ;
-//                    Log.e("Rx : " , String.valueOf(currentRecall[0]));
-//                    Log.e("Ry : " , String.valueOf(currentRecall[1]));
-//                    Log.e("Px : " , String.valueOf(path.get(checkArriveThisNodeYet-1).location[0]));
-//                    Log.e("Py : " , String.valueOf(path.get(checkArriveThisNodeYet-1).location[1]));
-//                    Log.e("X : " , String.valueOf(x));
-//                    Log.e("Y : " , String.valueOf(y));
+
                     distanceToThisNode = (sqrt(x*x+y*y));
-//                    Log.e("distance2thisBF : " , String.valueOf(distanceToThisNode));
                     distanceToThisNode = distanceToThisNode*(0.18);
                     if (distanceToThisNode < 1){
                         distanceToThisNode = 1;
                     }
-//                    Log.e("distance2thisAT : " , String.valueOf(distanceToThisNode));
-                    distance = String.format("%.2f",distanceToThisNode);
-                    //dont forget to change to integer
+                    //just in case of use distance to tell user. but in our last version we didn't use it anymore.
+//                    distance = String.format("%.2f",distanceToThisNode);
 //                                int tt = parseInt(distance);
 //                    Log.e("this is distance : ",String.valueOf(distance));
 //                    String wordDistance = "เหลืออีก"+ distance + "เมตร ก่อนจะถึงจุดต่อไป";
                     String wordDistance = "เดินตรงต่อไป";
 
-//                    if(loopcount == VirtualCurrentLocationOnX.size()-1){
-//                        checkOnDestinationYet = 1;
-//                        wordDistance = "ถึงจุดหมายเรียบร้อยแล้ว";
-//                    }
 
-                    currentLocation.setText("Continue...");
-//                    currentPath.setText(wordDistance);
-//                    Log.e("Continue...", wordDistance);
-
+                    //this is how we handle error of cisco cmx location service
                     if (checkArriveThisNodeYet<path.size()-1){
                         if (!path.get(checkArriveThisNodeYet-1).imInThisAreaRight(currentRecall[0],currentRecall[1])
                                 && !path.get(checkArriveThisNodeYet).imInThisAreaRight(currentRecall[0],currentRecall[1])){
@@ -229,79 +181,10 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Button btnSubmit = (Button) findViewById(R.id.btn_submit);
-//        final TextView currentLocation = (TextView) findViewById(R.id.textView5);
-//        final TextView currentPath = (TextView) findViewById(R.id.textView7);
         currentLocation = (TextView) findViewById(R.id.CL);
         currentPath = (TextView) findViewById(R.id.textView7);
-//        OnTheWayTest = (TextView) findViewById(R.id.OnTheWayTest);
-//        xyLocation = (TextView) findViewById(R.id.xyLocation);
         btnSubmit.setOnClickListener(this);
 
-        //Add VirtualCurrentLocation
-        VirtualCurrentLocationOnX.add(250);
-        VirtualCurrentLocationOnY.add(180);
-
-        VirtualCurrentLocationOnX.add(250);
-        VirtualCurrentLocationOnY.add(177);
-//
-        VirtualCurrentLocationOnX.add(0);
-        VirtualCurrentLocationOnY.add(0);
-
-        VirtualCurrentLocationOnX.add(250);
-        VirtualCurrentLocationOnY.add(170);
-//
-        VirtualCurrentLocationOnX.add(257);
-        VirtualCurrentLocationOnY.add(170);
-
-        VirtualCurrentLocationOnX.add(0);
-        VirtualCurrentLocationOnY.add(0);
-//
-        VirtualCurrentLocationOnX.add(260);
-        VirtualCurrentLocationOnY.add(170);
-
-        VirtualCurrentLocationOnX.add(260);
-        VirtualCurrentLocationOnY.add(167);
-//
-        VirtualCurrentLocationOnX.add(0);
-        VirtualCurrentLocationOnY.add(0);
-//
-        VirtualCurrentLocationOnX.add(260);
-        VirtualCurrentLocationOnY.add(160);
-
-//        VirtualCurrentLocationOnX.add(234);
-//        VirtualCurrentLocationOnY.add(57);
-//
-//        VirtualCurrentLocationOnX.add(234);
-//        VirtualCurrentLocationOnY.add(53);
-
-//
-
-//        VirtualCurrentLocationOnX.add(230);
-//        VirtualCurrentLocationOnY.add(83);
-//
-//        VirtualCurrentLocationOnX.add(232);
-//        VirtualCurrentLocationOnY.add(82);
-//
-//        VirtualCurrentLocationOnX.add(234);
-//        VirtualCurrentLocationOnY.add(82);
-//
-//        VirtualCurrentLocationOnX.add(234);
-//        VirtualCurrentLocationOnY.add(78);
-//
-//        VirtualCurrentLocationOnX.add(234);
-//        VirtualCurrentLocationOnY.add(75);
-//
-//        VirtualCurrentLocationOnX.add(250);
-//        VirtualCurrentLocationOnY.add(75);
-//
-//        VirtualCurrentLocationOnX.add(262);
-//        VirtualCurrentLocationOnY.add(75);
-//
-//        VirtualCurrentLocationOnX.add(270);
-//        VirtualCurrentLocationOnY.add(75);
-//
-//        VirtualCurrentLocationOnX.add(270);
-//        VirtualCurrentLocationOnY.add(76);
 
         //Vertex at each place
         Vertex Entrance1 = new Vertex("Entrance1");
@@ -350,7 +233,6 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
         Vertex Node15 = new Vertex("Node15");
         Vertex Node155 = new Vertex("Node155");
         Vertex Node16 = new Vertex("Node16");
-//        Vertex Node17 = new Vertex("Node17");
         Vertex Node18 = new Vertex("Node18");
         Vertex Node19 = new Vertex("Node19");
         Vertex Node20 = new Vertex("Node20");
@@ -402,7 +284,6 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
         Node15.inputLocation(new int[]{188,163});
         Node155.inputLocation(new int[]{205,163});
         Node16.inputLocation(new int[]{180,163});
-//        int[] Node17test = {180,181};
         Node18.inputLocation(new int[]{153,163});
         Node19.inputLocation(new int[]{127,163});
         Node20.inputLocation(new int[]{121,163});
@@ -466,10 +347,8 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
         Node24.inputAreaLocation(86,157,89,167);
         Node25.inputAreaLocation(89,167,98,198);
 
-        //test re-install android studio
 
-        //this is for CurrentLocation [0] is X, [1] is Y
-        int[] Current = {234,52};
+
         //put x and y of each point in this list
         int[] Entrance1test = {234,53};
         int[] Ladder1test = {239,70};
@@ -522,6 +401,7 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
         int[] Node24test = {88,163};
         int[] Node25test = {93,190};
 
+        //add each x and y in EachXandY for calculation with Pithagorus that which node are user nearliest
         List<int[]> EachXandY = new ArrayList<>();
         EachXandY.add(Entrance1test);
         EachXandY.add(Ladder1test);
@@ -576,20 +456,11 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
 
         int checkInEachXandY = 0;
         double checkLastPithagorus = 100000;
-//        new FeedJSONTaskCurrentLocation().execute("");
-
-//        handler.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-////                new FeedJSONTaskCurrentLocation().execute("");
-//            }
-//        },3000);
 
         int x ;
         int y ;
-//        Log.e("callcurrentAtStart:", getIntent().getStringExtra("startX"));
-//        Log.e("callcurrentAtStart:", getIntent().getStringExtra("startY"));
-//        xyLocation.setText(getIntent().getStringExtra("startX")+","+getIntent().getStringExtra("startY"));
+
+        //Pithagorus algorithm
         double Pithagorus;
         for(int i = 0 ; i<EachXandY.size(); i++){
             x =  parseInt(getIntent().getStringExtra("startX")) - EachXandY.get(i)[0];
@@ -642,7 +513,6 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
         NumWithPlace.put(38, Node15);
         NumWithPlace.put(39, Node155);
         NumWithPlace.put(40, Node16);
-//        NumWithPlace.put(41, "Node17");
         NumWithPlace.put(42, Node18);
         NumWithPlace.put(43, Node19);
         NumWithPlace.put(44, Node20);
@@ -654,14 +524,7 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
         NumWithPlace.put(50, Node25);
 
         startLocation = (Vertex) NumWithPlace.get(checkInEachXandY);
-//        handler.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                currentLocation.setText(startLocation.toString());
-//            }
-//        },1500);
 
-//        System.out.println("Your Current Location is : "+ NumWithPlace.get(checkInEachXandY));
 
         //Put in all path
         Entrance1.adjacencies = new Edge[]{ new Edge(Node2,5)};
@@ -693,7 +556,6 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
         Node15.adjacencies = new Edge[]{ new Edge(Node155,5.4),new Edge(Room105,2.7),new Edge(Node16,2) };
         Room105.adjacencies = new Edge[]{ new Edge(Node15,2.7) };
         Node16.adjacencies = new Edge[]{ new Edge(Node15,2),new Edge(KKRoom,4.15),new Edge(Node18,5.8) };
-//     Node17.adjacencies = new Edge[]{ new Edge(Node16,4.15),new Edge(KKRoom,10.7) };
         KKRoom.adjacencies = new Edge[]{ new Edge(Node16,8.3) };
         Node18.adjacencies = new Edge[]{ new Edge(Node16,5.8),new Edge(Room107,2.7),new Edge(Node19,7.8) };
         Room107.adjacencies = new Edge[]{ new Edge(Node18,2.7) };
@@ -715,7 +577,7 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
         Ladder3.adjacencies = new Edge[]{ new Edge(Node24,1.7) };
         CopyStore.adjacencies = new Edge[]{ new Edge(Node24,0.5) };
 
-        //we're setting that first location is Library don't forget to change this location to dynamic
+        //Receive start location and destination from last activity
         final Vertex current = startLocation;
         Vertex destination;
         String destinationz = getIntent().getStringExtra("Destination");
@@ -806,24 +668,10 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
         System.out.println("Distance to " + destination + ": " + destination.minDistance);
         MyTTS.getInstance(NavigationActivity.this).speak(currentLocation.getText().toString()+"และกำลังไปที่"+destinationz.toString()+"และมีระยะทาง"+destination.minDistance+"เมตร");
         //Calculate path
-//        final List<Vertex> path = getShortestPathTo(destination);
         path = getShortestPathTo(destination);
         System.out.println("Path: " + path);
 
-//        int SizeOfPath = path.size();
-//        int checkArriveThisNodeYet = 0;
-//        double distanceToThisNode;
-//        for (int i = 0 ; i<VirtualCurrentLocationOnX.size(); i++){
-//            int[] currentRecall = {VirtualCurrentLocationOnX.get(i),VirtualCurrentLocationOnY.get(i)};
-//            if (currentRecall == path.get(checkArriveThisNodeYet).location){
-//                checkArriveThisNodeYet+=1;
-//            }else {
-//                x = currentRecall[0] - path.get(checkArriveThisNodeYet).location[0];
-//                y = currentRecall[1] - path.get(checkArriveThisNodeYet).location[1];
-//                distanceToThisNode = (sqrt(x*x+y*y))*0.28;
-//
-//            }
-//        }
+
 
 //        final ArrayList<String> WordInPath = new ArrayList<>();
         for(int i = 0 ; i < path.size(); i++){
@@ -1225,16 +1073,6 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
                         }
                     }
 
-//                    if(path.get(i+1) == Node16){//node17 to node16
-//                        if(path.get(i-1) == KKRoom){
-//                            WordInPath.add("เดินตรงไป 4.15 เมตร");
-//                        }
-//                    }
-//                    if(path.get(i+1) == Node3){//node17 to KKRoom
-//                        if(path.get(i-1) == Node16){
-//                            WordInPath.add("เดินตรงไป 4.15 เมตร");
-//                        }
-//                    }
 
                     if(path.get(i+1) == Node16){//node18 to node16
                         if(path.get(i-1) == Room107){
@@ -1457,186 +1295,6 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
         }
 
 
-
-        Bitmap bmp = null;
-
-
-//        imgView =(ImageView)findViewById(R.id.imageView);
-        String imageUrl = "10.34.250.12/api/config/v1/maps/imagesource/domain_0_1500368087062.jpg";
-//        URL url = new URL(imageUrl);
-//        HttpURLConnection connection = (HttpURLConnection)
-//        imgView.setImageBitmap(helper.getHTTPData(imageUrl));
-//        imgView.setImageBitmap(GetBitmapfromUrl("https://httpbin.org/image/png"));
-
-//        imgView.setTag("10.34.250.12/api/config/v1/maps/imagesource/domain_0_1500368087062.jpg");
-//        imgView.setTag("https://httpbin.org/image/png");
-//        imgView.setWebViewClient(new CustomWebViewClient());
-//        imgView.loadUrl(imageUrl);
-//        new DownloadImagesTask().execute(imgView);
-//        NetworkTask network = new NetworkTask();
-//        network.execute("");
-
-
-        Bitmap bitMap = Bitmap.createBitmap(380 , 516, Bitmap.Config.ARGB_8888);  //creates bmp
-        bitMap = bitMap.copy(bitMap.getConfig(), true);     //lets bmp to be mutable
-        Canvas canvas = new Canvas(bitMap);                 //draw a canvas in defined bmp
-//
-//        Paint paint = new Paint();                          //define paint and paint color
-//        paint.setColor(Color.RED);
-//        paint.setStyle(Paint.Style.FILL_AND_STROKE);
-//        //paint.setStrokeWidth(0.5f);
-//        paint.setAntiAlias(true);                           //smooth edges
-
-//        new FeedJSONTask().execute();
-
-//        imgView2 = (ImageView) findViewById(R.id.);
-//        imgView2.bringToFront();
-//        imgView2.setImageBitmap(bitMap);
-//        TextView text1 = (TextView) findViewById(R.id.textView6);
-//        text1.setText(" MAC 60:83:34:6D:11:8D ");
-
-
-        Log.d("Test Debug >>","test1111");
-        //changed set image resource to set image background resource
-//        imViewAndroid.setBackgroundResource(R.drawable.map);
-
-        //       true start(223,83) +20,+130 OK!!
-//       next (204,168) => (224,298) NOT OK!!
-//        at top left in mobile screen (4,124)
-//        at bottom right in mobile screen (376,392)
-//        mobile use (376-4,392-124) => (372,268)
-//        at top left in real map (0,0)
-//        at bottom right in real map (345,243)
-//        so we want (95,70) => calculate : CoX/372 = 95/345 so CoX = (372*95)/345 = 102.43
-//        CoY/268 = 70/243 so CoY = (268*70)/243 = 77.2
-//        and!! plus (4,124) in to CoX and CoY
-//        So real CoX = 102+4 = 106, CoY = 77+124 = 201
-
-
-        wantX = 188;
-        wantY = 125;
-//        CoX = ((372*wantX)/345)+4;
-//        CoY = ((268*wantY)/243)+124;
-//        canvas.drawCircle(CoX, CoY, 2, paint);
-//        //invalidate to update bitmap in imageview
-//        imgView2.invalidate();
-
-
-//        tts = new TextToSpeech(this, this);
-//        tts.setLanguage(new Locale("th"));
-//        test123 = (LinearLayout)findViewById(R.id.testtest);
-//        test123.setOnTouchListener(new OnSwipe(this){
-//            public void onSwipeTop() {
-//                tts.speak("ปัดขวาเพื่อเข้าสู่หน้าหลัก",TextToSpeech.QUEUE_FLUSH,null);
-//            }
-//            public void onSwipeRight() {
-//                Intent it = new Intent(getApplicationContext(),MainPage.class);
-//                startActivity(it);
-//                finish();
-//            }
-//            public void onSwipeLeft() {
-//
-//            }
-//            public void onSwipeBottom() {
-//                tts.speak("หน้านี้คือหน้านำทาง 1.625", TextToSpeech.QUEUE_FLUSH,null);
-//            }
-//        });
-//
-
-
-//        tts = new TextToSpeech(this, this,"com.google.android.tts");
-//        tts.setLanguage(new Locale("th"));
-//        btnSubmit.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                // fake call for init
-//                MyTTS.getInstance(NavigationActivity.this)
-//                        .setEngine("com.google.android.tts")
-//                        .setLocale(new Locale("th")).speak("");
-//
-//                //
-//                final Handler handler = new Handler();
-//                handler.postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//
-//                        int SizeOfPath = path.size();
-//                        int checkArriveThisNodeYet = 0;
-//                        double distanceToThisNode;
-//                        String distance;
-//                        for (int i = 0 ; i<VirtualCurrentLocationOnX.size(); i++){
-//                            int[] currentRecall = {VirtualCurrentLocationOnX.get(i),VirtualCurrentLocationOnY.get(i)};
-//                            Log.e("Current Recall : ", String.valueOf(currentRecall[0]+" , "+ currentRecall[1]));
-//                            Log.e("checkArrive : ", String.valueOf(checkArriveThisNodeYet));
-//                            Log.e("Current Arrive Node : ",String.valueOf(path.get(checkArriveThisNodeYet).location[0]
-//                            +" , "+ path.get(checkArriveThisNodeYet).location[1]));
-//                            if (currentRecall[0] == path.get(checkArriveThisNodeYet).location[0]
-//                                    && currentRecall[1] == path.get(checkArriveThisNodeYet).location[1]){
-//
-//
-//                                    MyTTS.getInstance(NavigationActivity.this).speak(WordInPath.get(checkArriveThisNodeYet));
-//                                    currentLocation.setText(path.get(checkArriveThisNodeYet).toString());
-//                                    currentPath.setText(WordInPath.get(checkArriveThisNodeYet));
-//                                if (checkArriveThisNodeYet < WordInPath.size()-1){
-//                                    checkArriveThisNodeYet+=1;
-//                                }else{
-//
-//                                }
-//
-//
-//                            }else {
-//                                int x = currentRecall[0] - path.get(checkArriveThisNodeYet).location[0];
-//                                int y = currentRecall[1] - path.get(checkArriveThisNodeYet).location[1];
-//                                Log.e("Rx : " , String.valueOf(currentRecall[0]));
-//                                Log.e("Ry : " , String.valueOf(currentRecall[1]));
-//                                Log.e("Px : " , String.valueOf(path.get(checkArriveThisNodeYet).location[0]));
-//                                Log.e("Py : " , String.valueOf(path.get(checkArriveThisNodeYet).location[1]));
-//                                Log.e("X : " , String.valueOf(x));
-//                                Log.e("Y : " , String.valueOf(y));
-//                                distanceToThisNode = (sqrt(x*x+y*y));
-//                                Log.e("distance2thisBF : " , String.valueOf(distanceToThisNode));
-//                                distanceToThisNode = distanceToThisNode*(0.18);
-//                                Log.e("distance2thisAT : " , String.valueOf(distanceToThisNode));
-//                                distance = String.format("%.2f",distanceToThisNode);
-////                                int tt = parseInt(distance);
-//                                Log.e("this is distance : ",String.valueOf(distance));
-//                                String wordDistance = "เหลืออีก"+ distance + "เมตร ก่อนจะถึงจุดต่อไป";
-//                                if(i == VirtualCurrentLocationOnX.size()-1){
-//                                    wordDistance = "ถึงจุดหมายเรียบร้อยแล้ว";
-//                                }
-//                                MyTTS.getInstance(NavigationActivity.this).speak(wordDistance);
-//
-//                            }
-//                        }
-
-//                        for (int i =0 ; i<WordInPath.size();i++) {
-//                            Log.e("test", "onClick: " + WordInPath.get(i));
-//                            MyTTS.getInstance(NavigationActivity.this).speak(WordInPath.get(i));
-//                            currentLocation.setText(path.get(i+1).toString());
-//                            currentPath.setText(WordInPath.get(i));
-//
-//                        }
-
-//                    }
-//                }, 1000);
-//            }
-
-//            int SizeOfPath = path.size();
-//            int checkArriveThisNodeYet = 0;
-//            double distanceToThisNode;
-//        for (int i = 0 ; i<VirtualCurrentLocationOnX.size(); i++){
-//                int[] currentRecall = {VirtualCurrentLocationOnX.get(i),VirtualCurrentLocationOnY.get(i)};
-//                if (currentRecall == path.get(checkArriveThisNodeYet).location){
-//                    checkArriveThisNodeYet+=1;
-//                }else {
-//                    x = currentRecall[0] - path.get(checkArriveThisNodeYet).location[0];
-//                    y = currentRecall[1] - path.get(checkArriveThisNodeYet).location[1];
-//                    distanceToThisNode = (sqrt(x*x+y*y))*0.28;
-//
-//                }
-//            }
-
-//        });
     }
 
 
@@ -1650,152 +1308,11 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
         runLoopWithDelay();
     }
 
-//  this for redpoint on map example
-//    public class FeedJSONTask extends AsyncTask<String[], Void, String[]> {
-//
-//        @Override
-//        protected String[] doInBackground(String[]... strings) {
-//            String result = FeedJSON();
-//            Gson gson = new Gson();
-//            Type collectionType = new TypeToken<Collection<CMXResponse>>() {}.getType();
-//            Collection<CMXResponse> enums = gson.fromJson(result, collectionType);
-//            CMXResponse[] CMXresult = enums.toArray(new CMXResponse[enums.size()]);
-//
-////            Bitmap bitMap = Bitmap.createBitmap(380 , 516, Bitmap.Config.ARGB_8888);  //creates bmp
-////            bitMap = bitMap.copy(bitMap.getConfig(), true);     //lets bmp to be mutable
-////            Canvas canvas = new Canvas(bitMap);                 //draw a canvas in defined bmp
-//
-////            Paint paint = new Paint();                          //define paint and paint color
-////            paint.setColor(Color.RED);
-////            paint.setStyle(Paint.Style.FILL_AND_STROKE);
-////            //paint.setStrokeWidth(0.5f);
-////            paint.setAntiAlias(true);                           //smooth edges
-//
-////            imgView2 = (ImageView) findViewById(R.id.imageView2);
-////            imgView2.bringToFront();
-////            imgView2.setImageBitmap(bitMap);
-//
-//                double locateX = CMXresult[0].getMapCoordinate().getX();
-//                double locateY = CMXresult[0].getMapCoordinate().getY();
-//                double CoXX = ((372*locateX)/345)+4;
-//                double CoYY= ((268*locateY)/243)+124;
-//                int CoX = (int)CoXX;
-//                int CoY = (int)CoYY;
-//                String[] res = {Integer.toString(CoX),Integer.toString(CoY)};
-////                canvas.drawCircle(CoX, CoY, 2, paint);
-//                //invalidate to update bitmap in imageview
-////                imgView2.invalidate();
-//
-//
-//
-//            return res;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(String[] s) {
-//
-//            super.onPostExecute(s);
-//
-//            int x = Integer.valueOf(s[0]);
-//            int y = Integer.valueOf(s[1]);
-//
-//            Bitmap bitMap = Bitmap.createBitmap(380 , 516, Bitmap.Config.ARGB_8888);  //creates bmp
-//            bitMap = bitMap.copy(bitMap.getConfig(), true);     //lets bmp to be mutable
-//            Canvas canvas = new Canvas(bitMap);                 //draw a canvas in defined bmp
-//
-//            Paint paint = new Paint();                          //define paint and paint color
-//            paint.setColor(Color.RED);
-//            paint.setStyle(Paint.Style.FILL_AND_STROKE);
-//            //paint.setStrokeWidth(0.5f);
-//            paint.setAntiAlias(true);                           //smooth edges
-//
-//            imgView2 = (ImageView) findViewById(R.id.imageView2);
-//            imgView2.bringToFront();
-//            imgView2.setImageBitmap(bitMap);
-//
-//            canvas.drawCircle(x, y, 2, paint);
-//            imgView2.invalidate();
-//        }
-//    }
-
-
-//    this is feedjson function for redpoint on map example
-//    private String FeedJSON(){
-//
-//        try {
-//
-//            HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-//            logging.setLevel(HttpLoggingInterceptor.Level.HEADERS);
-//
-//            OkHttpClient client = SelfSigningClientBuilder.createClient()
-//                    .authenticator(new Authenticator() {
-//                        @Nullable
-//                        @Override
-//                        public Request authenticate(Route route, Response response) throws IOException {
-//                            String credential = Credentials.basic("dev", "dev12345");
-//                            return response.request().newBuilder().header("Authorization", credential).build();
-//                        }
-//                    }).addInterceptor(logging).build();
-//
-//            Request request = new Request.Builder().url(LocationHistoryURL)
-//                    .build();
-//
-//            try {
-//                Response response = client.newCall(request).execute();
-//                String result = response.body().string();
-//                return result;
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//
-//        }catch (Exception e){
-//
-//        }
-//        return null;
-//    }
 
 
 
-    class NetworkTask extends AsyncTask<String, Void, Bitmap> {
 
-        @Override
-        protected Bitmap doInBackground(String... voids) {
-            HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-            logging.setLevel(HttpLoggingInterceptor.Level.HEADERS);
 
-            OkHttpClient client = SelfSigningClientBuilder.createClient()
-                    .authenticator(new Authenticator() {
-                        @Nullable
-                        @Override
-                        public Request authenticate(Route route, Response response) throws IOException {
-                            String credential = Credentials.basic("dev", "dev12345");
-                            return response.request().newBuilder().header("Authorization", credential).build();
-                        }
-                    }).addInterceptor(logging).build();
-
-            Request request = new Request.Builder().url(URL)
-                    .build();
-
-            Bitmap bitmap = null;
-            try {
-                Response response = client.newCall(request).execute();
-                InputStream inputStream = response.body().byteStream();
-                bitmap = BitmapFactory.decodeStream(inputStream);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            return bitmap;
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap bitmap) {
-            super.onPostExecute(bitmap);
-            if (bitmap != null) {
-                imgView.setImageBitmap(bitmap);
-            }
-        }
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -1807,6 +1324,7 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
         return super.onOptionsItemSelected(item);
     }
 
+    //Dijsktra's algorithm
     public static void computePaths(Vertex source)
     {
         source.minDistance = 0.;
@@ -1833,6 +1351,7 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
         }
     }
 
+    //use in Dijkstra's algorithm
     public static List<Vertex> getShortestPathTo(Vertex target)
     {
         List<Vertex> path = new ArrayList<Vertex>();
@@ -1843,20 +1362,16 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
         return path;
     }
 
-
+    //use to get through certificate for using API service
     public class FeedJSONTaskCurrentLocation extends AsyncTask<String, Void, String[]> {
 
         @Override
         protected String[] doInBackground(String... strings) {
             String result = FeedJSON();
             Gson gson = new Gson();
-//            Type collectionType = new TypeToken<Collection<CMXResponse>>() {}.getType();
-//            Collection<CMXResponse> enums = gson.fromJson(result, collectionType);
-//            CMXResponse[] CMXresult = enums.toArray(new CMXResponse[enums.size()]);
 
             CurrentLocationResponse[] currentLocationResponse = gson.fromJson(result, CurrentLocationResponse[].class);
-//            String[] currentResponseLast = {currentLocationResponse.getMapCoordinate().getX()};
-//            String test = result.get()
+
             double locateX = 0;
             double locateY = 0;
             String currentServerTime = "";
@@ -1869,8 +1384,7 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
             currentServerTime = currentLocationResponse[0].getStatistics().getCurrentServerTime();
             firstLocateTime = currentLocationResponse[0].getStatistics().getFirstLocatedTime();
             lastLocateTime = currentLocationResponse[0].getStatistics().getLastLocatedTime();
-//            double CoXX = ((372*locateX)/345)+4;
-//            double CoYY= ((268*locateY)/243)+124;
+
             int CoX = (int)locateX;
             int CoY = (int)locateY;
             String[] res = {Integer.toString(CoX),Integer.toString(CoY),currentServerTime,firstLocateTime,lastLocateTime};
@@ -1883,22 +1397,7 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
         protected void onPostExecute(String[] s) {
 
             super.onPostExecute(s);
-//            TextView CurrentX = (TextView) findViewById(R.id.CurrentX);
-//            TextView CurrentY = (TextView) findViewById(R.id.CurrentY);
-//            TextView ServerTime = (TextView) findViewById(R.id.ServerTime);
-//            TextView FirstLocatedTime = (TextView) findViewById(R.id.FirstLocateTime);
-//            TextView LastLocatedTime = (TextView) findViewById(R.id.LastLocateTime);
-//            TextView SuccessTimeStamp = (TextView) findViewById(R.id.SuccessTimeStamp);
-//
-//            CurrentX.setText(s[0]);
-//            CurrentY.setText(s[1]);
-//            ServerTime.setText(s[2]);
-//            FirstLocatedTime.setText(s[3]);
-//            LastLocatedTime.setText(s[4]);
-//            Timestamp timestamplast = new Timestamp(System.currentTimeMillis());
-//            SuccessTimeStamp.setText(String.valueOf(timestamplast.getTime()));
 
-//            currentRecall = new int[]{parseInt(s[0]), parseInt(s[1])};
             Log.e("locateX",s[0]);
             Log.e("locateY",s[1]);
             APIcallCurrentlocationX = parseInt(s[0]);
@@ -1924,9 +1423,12 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
                             return response.request().newBuilder().header("Authorization", credential).build();
                         }
                     }).addInterceptor(logging).build();
-//            https://10.34.250.12/api/location/v1/history/clients/78%3A4f%3A43%3A8a%3Adb%3Aab?date=2017%2F09%2F19
-//            https://10.34.250.12/api/location/v2/clients?macAddress=0a:4f:83:17:19:7b
-            Request request = new Request.Builder().url("https://10.34.250.12/api/location/v2/clients?macAddress=60:83:34:6D:11:8D")
+                //Location service API via macAddress(in case of use)
+//            Request request = new Request.Builder().url("https://10.34.250.12/api/location/v2/clients?macAddress=60:83:34:6D:11:8D")
+//                    .build();
+            //Location service API via IPAddress
+            String address = reverseIP(getLocalIpAddress());
+            Request request = new Request.Builder().url("https://10.34.250.12/api/location/v2/clients?ipAddress="+address)
                     .build();
 
             try {
@@ -1943,8 +1445,48 @@ public class NavigationActivity extends AppCompatActivity implements TextToSpeec
         return null;
     }
 
+
+    //get IPAddress from device but its reverse. So, it's why we use with reverseIP function.
+    public String getLocalIpAddress() {
+        try {
+            for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
+                NetworkInterface intf = en.nextElement();
+                for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
+                    InetAddress inetAddress = enumIpAddr.nextElement();
+                    if (!inetAddress.isLoopbackAddress()) {
+                        String ip = Formatter.formatIpAddress(inetAddress.hashCode());
+                        Log.i("getIPAddress1", "*** IP="+ ip);
+                        return ip;
+                    }
+                }
+            }
+        } catch (SocketException ex) {
+            Log.e("getIPAddress2", ex.toString());
+        }
+        return null;
+    }
+
+    public String reverseIP(String inputIP){
+        String[] parts = inputIP.split(Pattern.quote("."));
+        Log.i("input for reverse", inputIP);
+        String output = "";
+        Log.i("parts0", parts[0]);
+        for (int i = 3; i>=0; i--){
+            Log.i("parts"+i,parts[i]);
+            if (i==0){
+                output = output+parts[i];
+            }else{
+                output = output+parts[i]+".";
+            }
+
+        }
+        Log.i("output :",output);
+        return output;
+    }
+
 }
 
+//use in Dijkstra's algorithm
 class Vertex implements Comparable<Vertex>
 {
     public final String name;
@@ -1979,7 +1521,7 @@ class Vertex implements Comparable<Vertex>
 
 }
 
-
+//use in Dijkstra's algorithm
 class Edge
 {
     public final Vertex target;
